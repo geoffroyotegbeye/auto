@@ -10,7 +10,8 @@
     "db:migrate": "node src/database/migrate-all.js",
     "db:seed": "node src/database/seed-all.js",
     "db:reset": "node src/database/migrate-all.js && node src/database/seed-all.js",
-    "db:check": "node src/database/check-tables.js"
+    "db:check": "node src/database/check-tables.js",
+    "db:migrate-users": "node src/database/migrate-users.js"
   },
   "keywords": ["vehiclemarket", "api", "express", "mysql"],
   "author": "",

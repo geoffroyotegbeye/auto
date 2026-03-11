@@ -16,6 +16,7 @@ import authRoutes from './routes/auth.js';
 import configRoutes from './routes/config.js';
 import brandRoutes from './routes/brands.js';
 import heroRoutes from './routes/hero.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/brands', brandRoutes);
 app.use('/api/hero', heroRoutes);
+app.use('/api/users', userRoutes);
 
 // Route de test
 app.get('/api/health', (req, res) => {

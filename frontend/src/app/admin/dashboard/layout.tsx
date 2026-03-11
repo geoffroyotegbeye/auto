@@ -18,6 +18,7 @@ const menuItems = [
   { icon: 'ChatBubbleLeftIcon', label: 'Messages', href: '/admin/dashboard/contacts' },
   { icon: 'StarIcon', label: 'Avis clients', href: '/admin/dashboard/reviews' },
   { icon: 'WrenchScrewdriverIcon', label: 'Services SAV', href: '/admin/dashboard/services' },
+  { icon: 'UsersIcon', label: 'Utilisateurs', href: '/admin/dashboard/users' },
   { icon: 'Cog6ToothIcon', label: 'Configuration', href: '/admin/dashboard/config' },
 ];
 
@@ -27,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [user, setUser] = useState<any>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [logo, setLogo] = useState<string | null>(null);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -172,25 +174,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* User */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 relative">
           {sidebarOpen ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-3 px-4 py-2">
+              <button
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
+                className="w-full flex items-center gap-3 px-4 py-2 hover:bg-white dark:hover:bg-vm-dark rounded-lg transition-colors"
+              >
                 <div className="w-8 h-8 rounded-full bg-vm-red flex items-center justify-center text-white font-bold text-sm">
                   {user.name.charAt(0)}
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 text-left">
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{user.name}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-500 truncate">{user.email}</p>
                 </div>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
-              >
-                <Icon name="ArrowRightOnRectangleIcon" size={16} />
-                Déconnexion
+                <Icon name="ChevronUpIcon" size={16} className={`text-gray-500 transition-transform ${showUserDropdown ? '' : 'rotate-180'}`} />
               </button>
+              
+              {showUserDropdown && (
+                <div className="absolute bottom-full right-4 mb-2 w-48 bg-white dark:bg-vm-dark border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
+                  <Link
+                    href="/admin/dashboard/profile"
+                    onClick={() => setShowUserDropdown(false)}
+                    className="flex items-center gap-2 px-4 py-3 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-vm-dark-card transition-colors"
+                  >
+                    <Icon name="UserCircleIcon" size={16} />
+                    Mon profil
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                  >
+                    <Icon name="ArrowRightOnRectangleIcon" size={16} />
+                    Déconnexion
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <button

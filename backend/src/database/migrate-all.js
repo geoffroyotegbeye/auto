@@ -54,7 +54,8 @@ async function runMigrations() {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
-        role ENUM('admin', 'super_admin') DEFAULT 'admin',
+        role ENUM('lecteur', 'editeur', 'admin') DEFAULT 'lecteur',
+        is_active BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )

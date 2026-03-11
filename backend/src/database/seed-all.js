@@ -9,8 +9,8 @@ async function seedAll() {
     console.log('👤 Création de l\'utilisateur admin...');
     const hashedPassword = await bcrypt.hash('Admin123!', 10);
     await pool.query(
-      'INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id',
-      ['admin@vehiclemarket.com', hashedPassword, 'Administrateur', 'super_admin']
+      'INSERT INTO users (email, password, name, role, is_active) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id',
+      ['admin@vehiclemarket.com', hashedPassword, 'Administrateur', 'admin', true]
     );
     console.log('✅ Admin créé : admin@vehiclemarket.com / Admin123!');
 

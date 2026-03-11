@@ -152,6 +152,14 @@ export const authAPI = {
   },
 };
 
+// Utilisateurs
+export const usersAPI = {
+  getAll: () => fetchAPI('/users'),
+  create: (data: any) => fetchAPI('/users', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: any) => fetchAPI(`/users/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id: string) => fetchAPI(`/users/${id}`, { method: 'DELETE' }),
+};
+
 // Configuration
 export const configAPI = {
   get: () => fetchAPI('/config'),
