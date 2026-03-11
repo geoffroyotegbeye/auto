@@ -22,11 +22,16 @@ interface Vehicle {
   doors?: number;
   seats?: number;
   power?: number;
+  body_style?: string;
   description?: string;
   features?: string;
   status: string;
   main_image?: string;
   images?: string;
+  is_featured?: boolean;
+  is_new?: boolean;
+  badge?: string;
+  badge_type?: string;
 }
 
 interface ToastState {
@@ -160,6 +165,11 @@ export default function VehiclesPage() {
       description: vehicle.description || '',
       features: vehicle.features || '',
       status: vehicle.status,
+      is_featured: vehicle.is_featured || false,
+      is_new: vehicle.is_new || false,
+      badge: vehicle.badge || '',
+      badge_type: vehicle.badge_type || '',
+      body_style: vehicle.body_style || '',
     });
     
     // Charger les images existantes
@@ -206,6 +216,11 @@ export default function VehiclesPage() {
       description: '',
       features: '',
       status: 'available',
+      is_featured: false,
+      is_new: false,
+      badge: '',
+      badge_type: '',
+      body_style: '',
     });
     setExistingImages([]);
     setSelectedImages([]);
@@ -397,11 +412,9 @@ export default function VehiclesPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-lg overflow-hidden bg-[#141414] flex-shrink-0">
-                        <AppImage
+                        <img
                           src={`${getImageUrl(vehicle.main_image)}?t=${imageRefreshKey}`}
                           alt={vehicle.model}
-                          width={64}
-                          height={64}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -429,7 +442,7 @@ export default function VehiclesPage() {
                           ? 'bg-green-500/10 text-green-400'
                           : vehicle.status === 'reserved'
                           ? 'bg-orange-500/10 text-orange-400'
-                          : 'bg-red-500/10 text-red-400'
+                          : 'bg-gray-500/10 text-gray-400'
                       }`}
                     >
                       {vehicle.status === 'available' ? 'Disponible' : vehicle.status === 'reserved' ? 'Réservé' : 'Vendu'}
@@ -445,7 +458,7 @@ export default function VehiclesPage() {
                       </button>
                       <button
                         onClick={() => handleDelete(vehicle.id)}
-                        className="p-2 text-[#A09A8E] hover:text-red-400 transition-colors"
+                        className="p-2 text-[#A09A8E] hover:text-rose-400 transition-colors"
                       >
                         <Icon name="TrashIcon" size={16} />
                       </button>
@@ -635,6 +648,79 @@ export default function VehiclesPage() {
                     <option value="sold">Vendu</option>
                   </select>
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Type de carrosserie</label>
+                  <select
+                    value={formData.body_style}
+                    onChange={(e) => setFormData({ ...formData, body_style: e.target.value })}
+                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                  >
+                    <option value="">Sélectionner...</option>
+                    <option value="Berline">Berline</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Break">Break</option>
+                    <option value="Coupé">Coupé</option>
+                    <option value="Cabriolet">Cabriolet</option>
+                    <option value="Monospace">Monospace</option>
+                    <option value="Citadine">Citadine</option>
+                    <option value="Pick-up">Pick-up</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Badge</label>
+                  <input
+                    type="text"
+                    value={formData.badge}
+                    onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
+                    placeholder="Ex: Nouveau, Promo, -20%"
+                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Type de badge</label>
+                  <select
+                    value={formData.badge_type}
+                    onChange={(e) => setFormData({ ...formData, badge_type: e.target.value })}
+                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                  >
+                    <option value="">Aucun</option>
+                    <option value="badge-new">Nouveau (Orange)</option>
+                    <option value="badge-promo">Promo (Vert)</option>
+                    <option value="badge-accent">Accent (Bleu)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Checkboxes */}
+              <div className="grid grid-cols-2 gap-4">
+                <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_featured}
+                    onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-[#F5F0E8]">Véhicule en vedette</p>
+                    <p className="text-xs text-[#A09A8E]">Afficher dans la section "En vedette"</p>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_new}
+                    onChange={(e) => setFormData({ ...formData, is_new: e.target.checked })}
+                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-[#F5F0E8]">Véhicule neuf</p>
+                    <p className="text-xs text-[#A09A8E]">Marquer comme véhicule neuf</p>
+                  </div>
+                </label>
               </div>
 
               <div>
@@ -681,7 +767,7 @@ export default function VehiclesPage() {
                                 <button
                                   type="button"
                                   onClick={() => removeExistingImage(imageUrl)}
-                                  className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className="absolute -top-2 -right-2 w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                   <Icon name="XMarkIcon" size={14} className="text-white" />
                                 </button>
@@ -731,7 +817,7 @@ export default function VehiclesPage() {
                             <button
                               type="button"
                               onClick={() => removeNewImage(index)}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                               <Icon name="XMarkIcon" size={14} className="text-white" />
                             </button>

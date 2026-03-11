@@ -2,20 +2,44 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Créer le dossier uploads s'il n'existe pas
-const uploadDir = 'uploads/vehicles';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Créer les dossiers uploads s'ils n'existent pas
+const uploadDirs = ['uploads/vehicles', 'uploads/brands', 'uploads/hero'];
+uploadDirs.forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
-// Configuration du stockage
-const storage = multer.diskStorage({
+// Configuration du stockage pour véhicules
+const vehicleStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir);
+    cb(null, 'uploads/vehicles');
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, 'vehicle-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// Configuration du stockage pour hero
+const heroStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/hero');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'hero-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// Configuration du stockage pour brands
+const brandStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/brands');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'brand-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
@@ -33,10 +57,28 @@ const fileFilter = (req, file, cb) => {
 };
 
 export const upload = multer({
-  storage: storage,
+  storage: vehicleStorage,
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB par fichier
     files: 5 // Maximum 5 fichiers
+  },
+  fileFilter: fileFilter
+});
+
+export const uploadHero = multer({
+  storage: heroStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB
+    files: 1
+  },
+  fileFilter: fileFilter
+});
+
+export const uploadBrand = multer({
+  storage: brandStorage,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // 2MB
+    files: 1
   },
   fileFilter: fileFilter
 });

@@ -24,9 +24,9 @@ export default function ConfirmModal({
   const styles = {
     danger: {
       icon: 'TrashIcon',
-      iconBg: 'bg-red-500/10',
-      iconColor: 'text-red-400',
-      button: 'bg-red-500 hover:bg-red-600',
+      iconBg: 'bg-rose-500/10',
+      iconColor: 'text-rose-400',
+      button: 'bg-rose-500 hover:bg-rose-600',
     },
     warning: {
       icon: 'ExclamationTriangleIcon',

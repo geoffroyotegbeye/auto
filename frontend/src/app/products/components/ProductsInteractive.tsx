@@ -48,18 +48,19 @@ export default function ProductsInteractive() {
     const fetchVehicles = async () => {
       try {
         const data = await vehiclesAPI.getAll({ status: 'available' });
-        const mapped = (data.vehicles || data).map((v: any) => ({
+        const vehiclesList = Array.isArray(data) ? data : (data.vehicles || []);
+        const mapped = vehiclesList.map((v: any) => ({
           id: v.id.toString(),
           brand: v.brand,
           model: v.model,
           version: v.version || '',
-          price: v.price,
+          price: parseFloat(v.price) || 0,
           year: v.year,
           km: v.km,
           fuel: v.fuel,
           transmission: v.transmission,
           power: v.power || '',
-          location: v.location || '',
+          location: v.location || 'Zongo, Bénin',
           image: v.main_image,
           alt: `${v.brand} ${v.model}`,
           isNew: v.is_new || false,

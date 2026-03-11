@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import AppImage from "@/components/ui/AppImage";
 import { getImageUrl } from "@/utils/imageUrl";
 import Icon from "@/components/ui/AppIcon";
 
@@ -44,8 +43,8 @@ export default function VehicleCard({ vehicle: v, view }: Props) {
   if (view === "list") {
     return (
       <div className="vehicle-card rounded-2xl flex overflow-hidden group">
-        <div className="card-image relative w-72 flex-shrink-0">
-          <AppImage src={getImageUrl(v.image)} alt={v.alt} fill className="object-cover" />
+        <div className="card-image relative w-72 h-48 flex-shrink-0 overflow-hidden">
+          <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover" />
           {v.badge && (
             <div className="absolute top-3 left-3 z-10">
               <span className={`badge ${v.badgeType}`}>{v.badge}</span>
@@ -99,8 +98,8 @@ export default function VehicleCard({ vehicle: v, view }: Props) {
 
   return (
     <div className="vehicle-card rounded-2xl">
-      <div className="card-image relative h-52">
-        <AppImage src={getImageUrl(v.image)} alt={v.alt} fill className="object-cover" />
+      <div className="card-image relative h-52 overflow-hidden">
+        <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.5)] to-transparent" />
         {v.badge && (
           <div className="absolute top-4 left-4 z-10">

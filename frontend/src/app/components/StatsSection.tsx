@@ -13,32 +13,32 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: 12000,
+    value: 10000,
     suffix: "+",
-    label: "Annonces actives",
-    description: "Véhicules disponibles à la vente partout en France",
+    label: "Véhicules vendus",
+    description: "Plus de 10 000 clients satisfaits depuis notre création en 2013",
     icon: "TruckIcon",
   },
   {
-    value: 48,
+    value: 7,
     suffix: "",
-    label: "Marques référencées",
-    description: "Des plus grandes marques mondiales aux spécialistes européens",
+    label: "Marques premium",
+    description: "Mercedes-Benz, KIA, Jeep, Fiat, Fuso, Kaiyi et Ashok Leyland",
     icon: "StarIcon",
+  },
+  {
+    value: 24,
+    suffix: "h/7j",
+    label: "Assistance disponible",
+    description: "Service après-vente et support client toujours à votre écoute",
+    icon: "ClockIcon",
   },
   {
     value: 98,
     suffix: "%",
     label: "Clients satisfaits",
-    description: "Note moyenne de satisfaction sur nos 5 dernières années",
+    description: "Qualité, proximité et confiance au cœur de notre relation client",
     icon: "HeartIcon",
-  },
-  {
-    value: 7,
-    suffix: "j",
-    label: "Délai moyen de vente",
-    description: "Votre véhicule trouvé et livré en moins d'une semaine",
-    icon: "ClockIcon",
   },
 ];
 
@@ -111,18 +111,18 @@ export default function StatsSection() {
               Pourquoi nous
             </p>
             <h2 className="section-title">
-              Le marché
+              Votre partenaire
               <br />
-              <span className="italic font-light text-[#A09A8E]">auto en chiffres.</span>
+              <span className="italic font-light text-[#A09A8E]">automobile de confiance.</span>
             </h2>
             <p className="text-[#A09A8E] leading-relaxed">
-              VehicleMarket est la référence française pour l'achat et la vente de véhicules toutes marques. Transparence, rapidité et confiance.
+              MIG Motors SA, distributeur exclusif au Bénin des plus grandes marques automobiles. Excellence, proximité et expertise depuis 2013.
             </p>
             <div className="flex flex-col gap-3 pt-4">
               {[
-                "Garantie satisfait ou remboursé 30 jours",
-                "Financement en ligne en 5 minutes",
-                "Livraison à domicile disponible",
+                "Garantie constructeur sur tous nos véhicules",
+                "Financement flexible adapté à votre budget",
+                "Service après-vente avec pièces d'origine",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3 text-[13px] text-[#A09A8E]">
                   <Icon name="CheckCircleIcon" size={16} variant="solid" className="text-[#E8A020] flex-shrink-0" />

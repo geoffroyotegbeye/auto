@@ -9,7 +9,9 @@ import Icon from '@/components/ui/AppIcon';
 
 const menuItems = [
   { icon: 'ChartBarIcon', label: 'Dashboard', href: '/admin/dashboard' },
+  { icon: 'HomeIcon', label: 'Hero', href: '/admin/dashboard/hero' },
   { icon: 'TruckIcon', label: 'Véhicules', href: '/admin/dashboard/vehicles' },
+  { icon: 'TagIcon', label: 'Marques', href: '/admin/dashboard/brands' },
   { icon: 'CalendarIcon', label: 'Rendez-vous', href: '/admin/dashboard/appointments' },
   { icon: 'DocumentTextIcon', label: 'Devis', href: '/admin/dashboard/quotes' },
   { icon: 'ChatBubbleLeftIcon', label: 'Messages', href: '/admin/dashboard/contacts' },

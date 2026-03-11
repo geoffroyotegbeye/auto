@@ -151,3 +151,34 @@ export const authAPI = {
     return false;
   },
 };
+
+// Marques
+export const brandsAPI = {
+  getAll: (params?: Record<string, any>) => {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return fetchAPI(`/brands${queryString}`);
+  },
+  getById: (id: string) => fetchAPI(`/brands/${id}`),
+  create: (data: FormData) =>
+    fetchAPI('/brands', {
+      method: 'POST',
+      body: data,
+    }),
+  update: (id: string, data: FormData) =>
+    fetchAPI(`/brands/${id}`, {
+      method: 'PUT',
+      body: data,
+    }),
+  delete: (id: string) => fetchAPI(`/brands/${id}`, { method: 'DELETE' }),
+};
+
+// Hero
+export const heroAPI = {
+  getSettings: () => fetchAPI('/hero/settings'),
+  getStats: () => fetchAPI('/hero/stats'),
+  updateSettings: (data: FormData) =>
+    fetchAPI('/hero/settings', {
+      method: 'PUT',
+      body: data,
+    }),
+};

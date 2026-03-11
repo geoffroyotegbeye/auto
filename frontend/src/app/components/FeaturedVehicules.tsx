@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/ui/AppIcon";
-import AppImage from "@/components/ui/AppImage";
 import { vehiclesAPI } from "@/services/api";
 import { getImageUrl } from "@/utils/imageUrl";
 
@@ -15,8 +14,13 @@ interface Vehicle {
   price: number;
   km: number;
   fuel: string;
+  transmission: string;
+  body_style: string;
   main_image: string;
   status: string;
+  is_featured: boolean;
+  badge?: string;
+  badge_type?: string;
 }
 
 export default function FeaturedVehicles() {
@@ -28,8 +32,9 @@ export default function FeaturedVehicles() {
       try {
         const data = await vehiclesAPI.getAll({ status: 'available' });
         const vehiclesList = data.vehicles || data;
-        // Prendre les 5 premiers véhicules disponibles
-        setVehicles(vehiclesList.filter((v: Vehicle) => v.status === 'available').slice(0, 5));
+        // Filtrer les véhicules en vedette (is_featured = true)
+        const featured = vehiclesList.filter((v: Vehicle) => v.status === 'available' && v.is_featured);
+        setVehicles(featured.slice(0, 5));
       } catch (error) {
         console.error('Erreur lors du chargement des véhicules:', error);
       } finally {
@@ -94,13 +99,19 @@ export default function FeaturedVehicles() {
         {/* Large card — premier véhicule */}
         {vehicles[0] && (
           <div className="vehicle-card rounded-2xl lg:row-span-2 reveal-hidden">
-            <div className="card-image h-[340px] lg:h-[calc(100%-120px)]">
-              <AppImage
+            <div className="card-image h-[340px] lg:h-[calc(100%-120px)] relative overflow-hidden">
+              <img
                 src={getImageUrl(vehicles[0].main_image)}
                 alt={`${vehicles[0].brand} ${vehicles[0].model}`}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
+              {vehicles[0].badge && (
+                <div className="absolute top-4 left-4 z-10">
+                  <span className={`badge ${vehicles[0].badge_type || 'badge-new'}`}>
+                    {vehicles[0].badge}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="p-5">
               <div className="flex items-start justify-between">
@@ -135,13 +146,19 @@ export default function FeaturedVehicles() {
         {/* Medium cards — véhicules 2 et 3 */}
         {vehicles.slice(1, 3).map((v, i) => (
           <div key={v.id} className={`vehicle-card rounded-2xl reveal-hidden delay-${i + 2}`}>
-            <div className="card-image h-44">
-              <AppImage
+            <div className="card-image h-44 relative overflow-hidden">
+              <img
                 src={getImageUrl(v.main_image)}
                 alt={`${v.brand} ${v.model}`}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
+              {v.badge && (
+                <div className="absolute top-4 left-4 z-10">
+                  <span className={`badge ${v.badge_type || 'badge-new'}`}>
+                    {v.badge}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="p-5">
               <div className="flex items-start justify-between">
@@ -167,12 +184,11 @@ export default function FeaturedVehicles() {
         {/* Small cards — véhicules 4 et 5 */}
         {vehicles.slice(3, 5).map((v, i) => (
           <div key={v.id} className={`vehicle-card rounded-2xl flex overflow-hidden reveal-hidden delay-${i + 4}`}>
-            <div className="card-image w-40 flex-shrink-0 relative">
-              <AppImage
+            <div className="card-image w-40 h-full flex-shrink-0 relative overflow-hidden">
+              <img
                 src={getImageUrl(v.main_image)}
                 alt={`${v.brand} ${v.model}`}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="p-5 flex flex-col justify-center">

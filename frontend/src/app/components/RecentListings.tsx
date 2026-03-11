@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Icon from "@/components/ui/AppIcon";
-import AppImage from "@/components/ui/AppImage";
 import { vehiclesAPI } from "@/services/api";
 import { getImageUrl } from "@/utils/imageUrl";
 
@@ -30,10 +29,153 @@ const fuelColors: Record<string, string> = {
   GPL: "text-purple-400"
 };
 
+function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), index * 120);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [index]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 18;
+    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -18;
+    setTilt({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
+
+  const daysAgo = (() => {
+    const date = new Date(vehicle.created_at);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  })();
+
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0) scale(1)" : "translateY(60px) scale(0.92)",
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.1}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.1}s`
+      }}
+    >
+      <Link href="/products">
+        <div
+          className="group relative bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-2xl overflow-hidden hover:border-[#E8A020] transition-all duration-300"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+            transition: "transform 0.15s ease-out, border-color 0.3s"
+          }}
+        >
+          {/* Glow effect */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+            style={{
+              background: "radial-gradient(ellipse at 50% 0%, rgba(232,160,32,0.15) 0%, transparent 70%)"
+            }}
+          />
+
+          {/* Image */}
+          <div className="relative h-52 overflow-hidden">
+            <img
+              src={getImageUrl(vehicle.main_image)}
+              alt={`${vehicle.brand} ${vehicle.model}`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent" />
+            
+            {/* Badges */}
+            <div className="absolute top-4 left-4 flex gap-2">
+              {daysAgo <= 7 && (
+                <span
+                  className="text-[9px] font-bold uppercase tracking-[0.3em] px-3 py-1.5 rounded-full"
+                  style={{
+                    background: "rgba(232,160,32,0.22)",
+                    color: "#E8A020",
+                    border: "1px solid rgba(232,160,32,0.44)",
+                    backdropFilter: "blur(8px)"
+                  }}
+                >
+                  Nouveau
+                </span>
+              )}
+            </div>
+            
+            {/* Days ago */}
+            <div className="absolute bottom-4 right-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A09A8E]">
+                {daysAgo === 0 ? "Aujourd'hui" : `Il y a ${daysAgo}j`}
+              </span>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-5">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A020] mb-1">
+                  {vehicle.brand}
+                </p>
+                <h3 className="font-display text-xl font-bold text-[#F5F0E8]">
+                  {vehicle.model}
+                </h3>
+              </div>
+              <div className="text-right">
+                <p className="font-display text-xl font-bold text-[#E8A020]">
+                  {vehicle.price.toLocaleString("fr-FR")} FCFA
+                </p>
+                <p className="text-[10px] text-[#5A5550] mt-0.5">{vehicle.year}</p>
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div
+              className="flex items-center gap-3 pt-3 mt-3"
+              style={{ borderTop: "1px solid rgba(245,240,232,0.06)" }}
+            >
+              <div className="flex items-center gap-1.5">
+                <Icon name="ChartBarIcon" size={11} className="text-[#5A5550]" />
+                <span className="text-[10px] text-[#A09A8E]">{vehicle.km.toLocaleString("fr-FR")} km</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Icon name="BoltIcon" size={11} className="text-[#5A5550]" />
+                <span className="text-[10px] text-[#A09A8E]">{vehicle.fuel}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Icon name="CogIcon" size={11} className="text-[#5A5550]" />
+                <span className="text-[10px] text-[#A09A8E]">{vehicle.transmission}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
 export default function RecentListings() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("Tous");
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [headerVisible, setHeaderVisible] = useState(false);
   const filters = ["Tous", "Électrique", "Hybride", "Essence", "Diesel"];
 
   useEffect(() => {
@@ -41,7 +183,6 @@ export default function RecentListings() {
       try {
         const data = await vehiclesAPI.getAll({ status: 'available' });
         const vehiclesList = data.vehicles || data;
-        // Trier par date de création (plus récents en premier) et prendre les 6 premiers
         const sorted = vehiclesList
           .filter((v: Vehicle) => v.status === 'available')
           .sort((a: Vehicle, b: Vehicle) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
@@ -59,156 +200,152 @@ export default function RecentListings() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("revealed");
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) setHeaderVisible(true);
       },
       { threshold: 0.1 }
     );
-    document.querySelectorAll(".reveal-hidden").forEach((el) => observer.observe(el));
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, [activeFilter]);
+  }, []);
 
   const filtered =
     activeFilter === "Tous"
       ? vehicles
       : vehicles.filter((v) => v.fuel.includes(activeFilter));
 
-  const getDaysAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
-
   if (loading) {
     return (
-      <section className="py-32 bg-[#0A0A0A]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <div className="text-center text-[#A09A8E]">Chargement des annonces...</div>
+      <section className="py-32 bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+        {/* Background grid + glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, transparent 0%, rgba(232,160,32,0.03) 40%, transparent 100%)",
+            backgroundImage: "linear-gradient(to right, rgba(245,240,232,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,240,232,0.02) 1px, transparent 1px)",
+            backgroundSize: "60px 60px"
+          }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%)",
+            filter: "blur(40px)"
+          }}
+        />
+
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
+                Dernières annonces
+              </p>
+              <h2 className="section-title">
+                Ajoutées
+                <br />
+                <span className="italic font-light text-[#A09A8E]">récemment.</span>
+              </h2>
+              <p className="text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+                Découvrez les dernières annonces ajoutées sur notre plateforme.
+                Survol pour l'effet 3D.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center text-[#A09A8E] py-12">
+            <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
+            Chargement des annonces...
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="py-32 bg-[#0A0A0A]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+    <section className="py-32 bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+      {/* Background grid + glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(to bottom, transparent 0%, rgba(232,160,32,0.03) 40%, transparent 100%)",
+          backgroundImage: "linear-gradient(to right, rgba(245,240,232,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,240,232,0.02) 1px, transparent 1px)",
+          backgroundSize: "60px 60px"
+        }}
+      />
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%)",
+          filter: "blur(40px)"
+        }}
+      />
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4 reveal-hidden">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div
+            style={{
+              opacity: headerVisible ? 1 : 0,
+              transform: headerVisible ? "translateY(0)" : "translateY(30px)",
+              transition: "opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)"
+            }}
+          >
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
               Dernières annonces
             </p>
-            <h2 className="section-title reveal-hidden delay-1">
-              Ajoutées
+            <h2 className="section-title">
+              Nouveautés
               <br />
-              <span className="italic font-light text-[#A09A8E]">récemment.</span>
+              <span className="italic font-light text-[#A09A8E]">du showroom.</span>
             </h2>
+            <p className="text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+              Découvrez les dernières annonces ajoutées sur notre plateforme.
+            </p>
           </div>
+
           {/* Filters */}
-          <div className="flex flex-wrap gap-2 reveal-hidden delay-2">
-            {filters.map((f) => (
-              <button
-                key={f}
-                onClick={() => setActiveFilter(f)}
-                className={`px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] border transition-all ${
-                  activeFilter === f
-                    ? "bg-[#E8A020] border-[#E8A020] text-[#0D0D0D]"
-                    : "border-[rgba(245,240,232,0.12)] text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020]"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
+          <div
+            style={{
+              opacity: headerVisible ? 1 : 0,
+              transform: headerVisible ? "translateY(0)" : "translateY(30px)",
+              transition: "opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s"
+            }}
+          >
+            <div className="flex flex-wrap gap-2 justify-end mb-4">
+              {filters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActiveFilter(f)}
+                  className={`px-4 py-2 text-[9px] font-bold uppercase tracking-[0.25em] rounded-full transition-all ${
+                    activeFilter === f
+                      ? "bg-[#E8A020] text-[#0D0D0D]"
+                      : "bg-[rgba(232,160,32,0.08)] border border-[rgba(232,160,32,0.2)] text-[#A09A8E] hover:border-[#E8A020]"
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+            <Link href="/products" className="btn-outline inline-flex items-center gap-2">
+              Voir tout le catalogue
+              <Icon name="ArrowRightIcon" size={14} />
+            </Link>
           </div>
         </div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((v, i) => {
-            const daysAgo = getDaysAgo(v.created_at);
-            return (
-              <div
-                key={v.id}
-                className={`vehicle-card rounded-2xl reveal-hidden delay-${Math.min(i + 1, 5)}`}
-              >
-                {/* Image */}
-                <div className="card-image relative h-52">
-                  <AppImage
-                    src={getImageUrl(v.main_image)}
-                    alt={`${v.brand} ${v.model}`}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.6)] to-transparent" />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    {daysAgo <= 7 && <span className="badge badge-new">Nouveau</span>}
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A09A8E]">
-                      {daysAgo === 0 ? "Aujourd'hui" : `Il y a ${daysAgo}j`}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550]">
-                        {v.brand}
-                      </p>
-                      <h3 className="font-display text-lg font-bold mt-0.5">
-                        {v.model}
-                      </h3>
-                    </div>
-                    <span className="font-display text-lg font-bold text-[#E8A020] flex-shrink-0">
-                      {v.price.toLocaleString("fr-FR")} FCFA
-                    </span>
-                  </div>
-
-                  {/* Specs row */}
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#A09A8E] mb-4">
-                    <span className="flex items-center gap-1">
-                      <Icon name="CalendarIcon" size={12} />
-                      {v.year}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Icon name="ChartBarIcon" size={12} />
-                      {v.km.toLocaleString("fr-FR")} km
-                    </span>
-                    <span className={`flex items-center gap-1 font-semibold ${fuelColors[v.fuel] || "text-[#A09A8E]"}`}>
-                      <Icon name="BoltIcon" size={12} />
-                      {v.fuel}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Icon name="CogIcon" size={12} />
-                      {v.transmission}
-                    </span>
-                  </div>
-
-                  <Link
-                    href="/products"
-                    className="flex items-center justify-between pt-4 border-t border-[rgba(245,240,232,0.06)] text-[11px] font-bold uppercase tracking-[0.2em] text-[#A09A8E] hover:text-[#E8A020] transition-colors group"
-                  >
-                    Voir l'annonce
-                    <Icon name="ArrowRightIcon" size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-16 reveal-hidden">
-          <Link href="/products" className="btn-primary text-sm px-10 py-5">
-            Voir toutes les annonces
-            <Icon name="ArrowRightIcon" size={16} />
-          </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.length > 0 ? (
+            filtered.map((vehicle, index) => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} index={index} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <Icon name="TruckIcon" size={48} className="text-[#5A5550] mx-auto mb-4" />
+              <p className="text-[#A09A8E]">Aucun véhicule trouvé pour ce filtre</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
