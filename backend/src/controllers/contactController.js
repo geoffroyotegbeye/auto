@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import pool from '../config/database.js';
 import { sendEmail } from '../utils/email.js';
+import { sanitizeUpdateData } from '../utils/sanitize.js';
 
 export const createContact = async (req, res) => {
   const errors = validationResult(req);
@@ -76,7 +77,7 @@ export const getContactById = async (req, res) => {
 export const updateContact = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = req.body;
+    const updateData = sanitizeUpdateData(req.body);
 
     const [result] = await pool.query('UPDATE contacts SET ? WHERE id = ?', [updateData, id]);
 

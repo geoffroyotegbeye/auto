@@ -109,94 +109,94 @@ export default function HeroPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-[#F5F0E8]">Gestion du Hero</h2>
-        <p className="text-sm text-[#A09A8E] mt-1">Personnalisez la section hero de la page d'accueil</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">Gestion du Hero</h2>
+        <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">Personnalisez la section hero de la page d'accueil</p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Titre */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Titre principal</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Titre principal</h3>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Ligne 1</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Ligne 1</label>
               <input
                 type="text"
                 value={formData.title_line1}
                 onChange={(e) => setFormData({ ...formData, title_line1: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Ligne 2 (accent)</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Ligne 2 (accent)</label>
               <input
                 type="text"
                 value={formData.title_line2}
                 onChange={(e) => setFormData({ ...formData, title_line2: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Ligne 3</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Ligne 3</label>
               <input
                 type="text"
                 value={formData.title_line3}
                 onChange={(e) => setFormData({ ...formData, title_line3: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
           </div>
         </div>
 
         {/* Sous-titre */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Sous-titre</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Sous-titre</h3>
           <textarea
             value={formData.subtitle}
             onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
             rows={4}
-            className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020] resize-none"
+            className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020] resize-none"
             placeholder="Utilisez \n pour les sauts de ligne"
           />
         </div>
 
         {/* Badge */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Badge</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Badge</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Texte du badge</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Texte du badge</label>
               <input
                 type="text"
                 value={formData.badge_text}
                 onChange={(e) => setFormData({ ...formData, badge_text: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Sous-texte</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Sous-texte</label>
               <input
                 type="text"
                 value={formData.badge_subtext}
                 onChange={(e) => setFormData({ ...formData, badge_subtext: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
           </div>
         </div>
 
         {/* Image principale */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Image principale</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Image principale</h3>
           <div className="flex items-center gap-4">
-            <div className="w-64 h-40 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg overflow-hidden relative">
+            <div className="w-64 h-40 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg overflow-hidden relative">
               {previewUrl ? (
                 <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
               ) : settings?.main_image ? (
                 <img src={getImageUrl(settings.main_image)} alt="Hero" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <Icon name="PhotoIcon" size={48} className="text-[#5A5550]" />
+                  <Icon name="PhotoIcon" size={48} className="text-gray-500 dark:text-[#5A5550]" />
                 </div>
               )}
             </div>
@@ -210,70 +210,70 @@ export default function HeroPage() {
               />
               <label
                 htmlFor="hero-image"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] hover:bg-[#141414] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-50 dark:bg-[#141414] transition-colors cursor-pointer"
               >
                 <Icon name="PhotoIcon" size={16} />
                 Choisir une image
               </label>
-              <p className="text-xs text-[#5A5550] mt-2">Format: JPG, PNG (max 5MB)</p>
+              <p className="text-xs text-gray-500 dark:text-[#5A5550] mt-2">Format: JPG, PNG (max 5MB)</p>
             </div>
           </div>
         </div>
 
         {/* Card flottante */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Card sur l'image</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Card sur l'image</h3>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Titre</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Titre</label>
               <input
                 type="text"
                 value={formData.card_title}
                 onChange={(e) => setFormData({ ...formData, card_title: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Sous-titre</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Sous-titre</label>
               <input
                 type="text"
                 value={formData.card_subtitle}
                 onChange={(e) => setFormData({ ...formData, card_subtitle: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Prix</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Prix</label>
               <input
                 type="text"
                 value={formData.card_price}
                 onChange={(e) => setFormData({ ...formData, card_price: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
           </div>
         </div>
 
         {/* Floating card */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-          <h3 className="text-lg font-bold text-[#F5F0E8] mb-4">Card flottante (coin supérieur droit)</h3>
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Card flottante (coin supérieur droit)</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Titre</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Titre</label>
               <input
                 type="text"
                 value={formData.floating_card_title}
                 onChange={(e) => setFormData({ ...formData, floating_card_title: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Texte</label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Texte</label>
               <input
                 type="text"
                 value={formData.floating_card_text}
                 onChange={(e) => setFormData({ ...formData, floating_card_text: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
               />
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function HeroPage() {
           <button
             type="button"
             onClick={loadSettings}
-            className="px-6 py-2 text-sm text-[#A09A8E] hover:text-[#F5F0E8] transition-colors"
+            className="px-6 py-2 text-sm text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8] transition-colors"
           >
             Annuler
           </button>

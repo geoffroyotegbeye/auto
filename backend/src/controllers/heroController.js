@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import { sanitizeUpdateData } from '../utils/sanitize.js';
 
 export const getHeroSettings = async (req, res) => {
   try {
@@ -17,7 +18,7 @@ export const getHeroSettings = async (req, res) => {
 
 export const updateHeroSettings = async (req, res) => {
   try {
-    const settingsData = req.body;
+    let settingsData = sanitizeUpdateData(req.body);
 
     // Gérer l'upload de l'image principale si présente
     if (req.file) {

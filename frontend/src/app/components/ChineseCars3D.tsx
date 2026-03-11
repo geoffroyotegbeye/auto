@@ -216,7 +216,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                   border: "1px solid rgba(255,255,255,0.1)"
                 }}>
                 
-                <Icon name="ArrowPathIcon" size={12} className="text-[#A09A8E]" />
+                <Icon name="ArrowPathIcon" size={12} className="text-gray-600 dark:text-[#A09A8E]" />
               </div>
             </div>
 
@@ -241,14 +241,14 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                     
                     {car.brand} · {car.origin}
                   </p>
-                  <h3 className="font-display text-xl font-bold text-[#F5F0E8]">{car.name}</h3>
-                  <p className="text-[11px] text-[#5A5550] mt-0.5 italic">{car.tagline}</p>
+                  <h3 className="font-display text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">{car.name}</h3>
+                  <p className="text-[11px] text-gray-500 dark:text-[#5A5550] mt-0.5 italic">{car.tagline}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-display text-xl font-bold" style={{ color: car.color }}>
                     {car.price}
                   </p>
-                  <p className="text-[10px] text-[#5A5550] mt-0.5">{car.year}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mt-0.5">{car.year}</p>
                 </div>
               </div>
 
@@ -259,17 +259,17 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 
                 {car.range &&
                 <div className="flex items-center gap-1.5">
-                    <Icon name="BoltIcon" size={11} className="text-[#5A5550]" />
-                    <span className="text-[10px] text-[#A09A8E]">{car.range}</span>
+                    <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                    <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.range}</span>
                   </div>
                 }
                 <div className="flex items-center gap-1.5">
-                  <Icon name="CpuChipIcon" size={11} className="text-[#5A5550]" />
-                  <span className="text-[10px] text-[#A09A8E]">{car.power}</span>
+                  <Icon name="CpuChipIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                  <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.power}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Icon name="FireIcon" size={11} className="text-[#5A5550]" />
-                  <span className="text-[10px] text-[#A09A8E]">{car.fuel}</span>
+                  <Icon name="FireIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                  <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.fuel}</span>
                 </div>
               </div>
             </div>
@@ -300,10 +300,10 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 </span>
               </div>
 
-              <h3 className="font-display text-2xl font-bold text-[#F5F0E8] mb-1">
+              <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-[#F5F0E8] mb-1">
                 {car.brand} {car.name}
               </h3>
-              <p className="text-[11px] text-[#A09A8E] italic mb-6">{car.tagline}</p>
+              <p className="text-[11px] text-gray-600 dark:text-[#A09A8E] italic mb-6">{car.tagline}</p>
 
               {/* Specs grid */}
               <div className="grid grid-cols-2 gap-3 w-full mb-6">
@@ -318,10 +318,10 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                   className="rounded-xl p-3 text-left"
                   style={{ background: "rgba(245,240,232,0.04)", border: "1px solid rgba(245,240,232,0.06)" }}>
                   
-                    <p className="text-[9px] uppercase tracking-[0.25em] text-[#5A5550] mb-1">
+                    <p className="text-[9px] uppercase tracking-[0.25em] text-gray-500 dark:text-[#5A5550] mb-1">
                       {spec.label}
                     </p>
-                    <p className="text-[13px] font-bold text-[#F5F0E8]">{spec.value}</p>
+                    <p className="text-[13px] font-bold text-gray-900 dark:text-[#F5F0E8]">{spec.value}</p>
                   </div>
                 )}
               </div>
@@ -340,7 +340,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 <Icon name="ArrowRightIcon" size={11} />
               </Link>
 
-              <p className="text-[9px] text-[#5A5550] mt-4">Cliquez pour retourner</p>
+              <p className="text-[9px] text-gray-500 dark:text-[#5A5550] mt-4">Cliquez pour retourner</p>
             </div>
           </div>
         </div>
@@ -401,9 +401,9 @@ export default function ChineseCars3D() {
             <h2 className="section-title">
               Voitures
               <br />
-              <span className="italic font-light text-[#A09A8E]">chinoises.</span>
+              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">chinoises.</span>
             </h2>
-            <p className="text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+            <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
               Découvrez les marques électriques chinoises qui révolutionnent l'automobile mondiale.
               Cliquez sur une carte pour explorer les specs.
             </p>
@@ -465,7 +465,7 @@ export default function ChineseCars3D() {
             }}>
             
             <div className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#5A5550]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-[#5A5550]">
               Survol pour l'effet 3D · Clic pour les specs
             </span>
           </div>

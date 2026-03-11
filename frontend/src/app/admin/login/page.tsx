@@ -30,19 +30,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-white dark:bg-[#0D0D0D] flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <AppLogo size={48} iconName="TruckIcon" text="VehicleMarket" />
           </div>
-          <h1 className="text-2xl font-bold text-[#F5F0E8] mb-2">Espace Administrateur</h1>
-          <p className="text-[#A09A8E] text-sm">Connectez-vous pour accéder au dashboard</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8] mb-2">Espace Administrateur</h1>
+          <p className="text-gray-600 dark:text-[#A09A8E] text-sm">Connectez-vous pour accéder au dashboard</p>
         </div>
 
         {/* Formulaire */}
-        <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-2xl p-8">
+        <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-2xl p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
@@ -52,7 +52,7 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[#F5F0E8] mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">
                 Email
               </label>
               <input
@@ -67,7 +67,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-[#F5F0E8] mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">
                 Mot de passe
               </label>
               <div className="relative">
@@ -83,7 +83,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A09A8E] hover:text-[#F5F0E8] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8] transition-colors"
                 >
                   <Icon name={showPassword ? 'EyeSlashIcon' : 'EyeIcon'} size={20} />
                 </button>
@@ -109,8 +109,8 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-[rgba(245,240,232,0.08)]">
-            <p className="text-xs text-[#5A5550] text-center">
+          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+            <p className="text-xs text-gray-500 dark:text-[#5A5550] text-center">
               Compte de test : admin@vehiclemarket.com / Admin123!
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <button
             onClick={() => router.push('/')}
-            className="text-sm text-[#A09A8E] hover:text-[#E8A020] transition-colors inline-flex items-center gap-2"
+            className="text-sm text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020] transition-colors inline-flex items-center gap-2"
           >
             <Icon name="ArrowLeftIcon" size={14} />
             Retour au site

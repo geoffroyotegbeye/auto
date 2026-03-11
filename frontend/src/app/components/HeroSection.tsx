@@ -107,7 +107,7 @@ export default function HeroSection() {
             {/* Eyebrow */}
             <div className="reveal-hidden flex items-center gap-4">
               <span className="badge badge-accent">{settings.badge_text}</span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#A09A8E]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gray-600 dark:text-[#A09A8E]">
                 {settings.badge_subtext}
               </span>
             </div>
@@ -122,13 +122,13 @@ export default function HeroSection() {
             </h1>
 
             {/* Sub */}
-            <p className="reveal-hidden delay-2 text-lg text-[#A09A8E] leading-relaxed max-w-2xl font-medium" style={{ whiteSpace: 'pre-line' }}>
+            <p className="reveal-hidden delay-2 text-lg text-gray-600 dark:text-[#A09A8E] leading-relaxed max-w-2xl font-medium" style={{ whiteSpace: 'pre-line' }}>
               {settings.subtitle}
             </p>
 
             {/* Search Glass Card */}
             <div className="reveal-hidden delay-3 search-glass rounded-2xl p-6 max-w-xl">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#5A5550] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-[#5A5550] mb-4">
                 Recherche rapide
               </p>
               <div className="grid sm:grid-cols-3 gap-3 mb-4">
@@ -167,7 +167,7 @@ export default function HeroSection() {
                 <span className="font-display text-2xl font-bold text-[#E8A020]">
                   {formatNumber(stats.vehicles)}
                 </span>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550] mt-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550] mt-1">
                   Annonces
                 </p>
               </div>
@@ -175,7 +175,7 @@ export default function HeroSection() {
                 <span className="font-display text-2xl font-bold text-[#E8A020]">
                   {stats.brands}
                 </span>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550] mt-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550] mt-1">
                   Marques
                 </p>
               </div>
@@ -183,7 +183,7 @@ export default function HeroSection() {
                 <span className="font-display text-2xl font-bold text-[#E8A020]">
                   {stats.satisfaction}%
                 </span>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550] mt-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550] mt-1">
                   Clients satisfaits
                 </p>
               </div>
@@ -210,7 +210,7 @@ export default function HeroSection() {
                 <div className="search-glass rounded-xl p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A09A8E]">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600 dark:text-[#A09A8E]">
                         {settings.card_title}
                       </p>
                       <p className="font-display text-xl font-bold mt-1">{settings.card_subtitle}</p>
@@ -232,13 +232,13 @@ export default function HeroSection() {
               className="absolute -top-4 -right-4 search-glass rounded-2xl p-4 z-10 float-animation-2 w-44"
               style={{ animationDelay: "1s" }}>
               
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#5A5550]">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">
                 {settings.floating_card_title}
               </p>
-              <p className="font-bold text-sm mt-1 text-[#F5F0E8]">{settings.floating_card_text}</p>
+              <p className="font-bold text-sm mt-1 text-gray-900 dark:text-[#F5F0E8]">{settings.floating_card_text}</p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse-slow" />
-                <span className="text-[10px] text-[#A09A8E]">Disponible</span>
+                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">Disponible</span>
               </div>
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function HeroSection() {
       </div>
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-        <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#A09A8E]">
+        <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-gray-600 dark:text-[#A09A8E]">
           Défiler
         </span>
         <div className="w-px h-12 bg-gradient-to-b from-[#A09A8E] to-transparent" />

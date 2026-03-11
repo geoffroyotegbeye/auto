@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AppLogo from "@/components/ui/AppLogo";
 import Icon from "@/components/ui/AppIcon";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
   { label: "Accueil", href: "/" },

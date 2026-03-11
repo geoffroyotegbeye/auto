@@ -29,20 +29,20 @@ cp .env.example .env
 npm run db:migrate
 npm run dev
 ```
-✅ http://localhost:5000
+✅ http://localhost:5001
 
 ### 3️⃣ Frontend
 ```bash
 cd frontend
 npm install
-echo "NEXT_PUBLIC_API_URL=http://localhost:5000/api" > .env.local
+echo "NEXT_PUBLIC_API_URL=http://localhost:5001/api" > .env.local
 npm run dev
 ```
 ✅ http://localhost:3000
 
 ### 4️⃣ Créer un admin
 ```bash
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST http://localhost:5001/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@test.com","password":"Admin123!","name":"Admin"}'
 ```
@@ -105,7 +105,7 @@ mysql.server start
 ### Port occupé
 ```bash
 # Tuer le processus
-lsof -ti:5000 | xargs kill -9
+lsof -ti:5001 | xargs kill -9
 ```
 
 ### Réinstaller dépendances
@@ -118,9 +118,9 @@ npm install
 
 ## 📞 Ressources
 
-- **API Health** : http://localhost:5000/api/health
+- **API Health** : http://localhost:5001/api/health
 - **Frontend** : http://localhost:3000
-- **Backend** : http://localhost:5000
+- **Backend** : http://localhost:5001
 
 ---
 

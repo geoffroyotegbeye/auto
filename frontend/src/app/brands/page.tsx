@@ -69,20 +69,20 @@ export default function BrandsPage() {
   };
 
   return (
-    <main className="bg-[#0D0D0D] min-h-screen">
+    <main className="bg-white dark:bg-[#0D0D0D] min-h-screen">
       <Header />
 
       {/* Page Header */}
-      <div className="pt-32 pb-12 border-b border-[rgba(245,240,232,0.06)] bg-[#0A0A0A] grid-bg">
+      <div className="pt-32 pb-12 border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] bg-gray-50 dark:bg-[#0A0A0A] grid-bg">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
             Toutes les marques
           </p>
           <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight leading-none">
             Parcourir par{' '}
-            <span className="italic font-light text-[#A09A8E]">marque.</span>
+            <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">marque.</span>
           </h1>
-          <p className="text-[#A09A8E] mt-4 text-lg max-w-xl">
+          <p className="text-gray-600 dark:text-[#A09A8E] mt-4 text-lg max-w-xl">
             Découvrez notre sélection de véhicules classés par marque. Des grandes marques premium aux constructeurs généralistes.
           </p>
         </div>
@@ -103,13 +103,13 @@ export default function BrandsPage() {
                   <span className="font-display text-4xl font-bold text-[#E8A020]">
                     {brands.length}
                   </span>
-                  <p className="text-sm text-[#A09A8E] mt-1">Marques disponibles</p>
+                  <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">Marques disponibles</p>
                 </div>
                 <div>
                   <span className="font-display text-4xl font-bold text-[#E8A020]">
                     {brands.reduce((sum, b) => sum + b.count, 0)}
                   </span>
-                  <p className="text-sm text-[#A09A8E] mt-1">Véhicules au total</p>
+                  <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">Véhicules au total</p>
                 </div>
               </div>
             </div>
@@ -128,10 +128,10 @@ export default function BrandsPage() {
                         <Icon name="TruckIcon" size={24} className="text-[#E8A020]" />
                       </div>
                       <div>
-                        <h3 className="font-display text-2xl font-bold text-[#F5F0E8]">
+                        <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">
                           {brand.brand}
                         </h3>
-                        <p className="text-sm text-[#A09A8E]">
+                        <p className="text-sm text-gray-600 dark:text-[#A09A8E]">
                           {brand.count} véhicule{brand.count > 1 ? 's' : ''}
                         </p>
                       </div>
@@ -139,20 +139,20 @@ export default function BrandsPage() {
                     <Icon
                       name="ArrowRightIcon"
                       size={20}
-                      className="text-[#5A5550] group-hover:text-[#E8A020] transition-colors"
+                      className="text-gray-500 dark:text-[#5A5550] group-hover:text-[#E8A020] transition-colors"
                     />
                   </div>
 
-                  <div className="space-y-2 pt-4 border-t border-[rgba(245,240,232,0.06)]">
+                  <div className="space-y-2 pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.06)]">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-[#A09A8E]">Prix</span>
-                      <span className="text-[#F5F0E8] font-medium">
+                      <span className="text-gray-600 dark:text-[#A09A8E]">Prix</span>
+                      <span className="text-gray-900 dark:text-[#F5F0E8] font-medium">
                         {brand.minPrice.toLocaleString('fr-FR')} - {brand.maxPrice.toLocaleString('fr-FR')} €
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-[#A09A8E]">Année moyenne</span>
-                      <span className="text-[#F5F0E8] font-medium">{brand.avgYear}</span>
+                      <span className="text-gray-600 dark:text-[#A09A8E]">Année moyenne</span>
+                      <span className="text-gray-900 dark:text-[#F5F0E8] font-medium">{brand.avgYear}</span>
                     </div>
                   </div>
 
@@ -166,9 +166,9 @@ export default function BrandsPage() {
 
             {brands.length === 0 && (
               <div className="text-center py-32">
-                <Icon name="TruckIcon" size={48} className="text-[#5A5550] mx-auto mb-4" />
-                <p className="font-display text-2xl font-bold text-[#A09A8E]">Aucune marque disponible</p>
-                <p className="text-[#5A5550] mt-2 text-sm">Les véhicules seront bientôt disponibles</p>
+                <Icon name="TruckIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
+                <p className="font-display text-2xl font-bold text-gray-600 dark:text-[#A09A8E]">Aucune marque disponible</p>
+                <p className="text-gray-500 dark:text-[#5A5550] mt-2 text-sm">Les véhicules seront bientôt disponibles</p>
               </div>
             )}
           </>

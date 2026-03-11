@@ -67,7 +67,7 @@ function StatCard({ stat, triggered }: { stat: Stat; triggered: boolean }) {
   const display = stat.value >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toString();
 
   return (
-    <div className="p-8 border border-[rgba(245,240,232,0.08)] bg-[#141414] rounded-2xl hover:border-[#E8A020] transition-colors group">
+    <div className="p-8 border border-gray-200 dark:border-[rgba(245,240,232,0.08)] bg-gray-50 dark:bg-[#141414] rounded-2xl hover:border-[#E8A020] transition-colors group">
       <div className="flex items-start justify-between mb-6">
         <div className="w-12 h-12 rounded-xl bg-[rgba(232,160,32,0.1)] flex items-center justify-center group-hover:bg-[rgba(232,160,32,0.2)] transition-colors">
           <Icon name={stat.icon as Parameters<typeof Icon>[0]["name"]} size={22} className="text-[#E8A020]" />
@@ -78,7 +78,7 @@ function StatCard({ stat, triggered }: { stat: Stat; triggered: boolean }) {
         {stat.value >= 1000 ? display : count}
         {stat.suffix}
       </div>
-      <p className="text-[13px] text-[#A09A8E] leading-relaxed mt-3">{stat.description}</p>
+      <p className="text-[13px] text-gray-600 dark:text-[#A09A8E] leading-relaxed mt-3">{stat.description}</p>
     </div>
   );
 }
@@ -102,7 +102,7 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section className="py-32 bg-[#0D0D0D]" ref={sectionRef}>
+    <section className="py-32 bg-white dark:bg-[#0D0D0D]" ref={sectionRef}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           {/* Left copy */}
@@ -113,9 +113,9 @@ export default function StatsSection() {
             <h2 className="section-title">
               Votre partenaire
               <br />
-              <span className="italic font-light text-[#A09A8E]">automobile de confiance.</span>
+              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">automobile de confiance.</span>
             </h2>
-            <p className="text-[#A09A8E] leading-relaxed">
+            <p className="text-gray-600 dark:text-[#A09A8E] leading-relaxed">
               MIG Motors SA, distributeur exclusif au Bénin des plus grandes marques automobiles. Excellence, proximité et expertise depuis 2013.
             </p>
             <div className="flex flex-col gap-3 pt-4">
@@ -124,7 +124,7 @@ export default function StatsSection() {
                 "Financement flexible adapté à votre budget",
                 "Service après-vente avec pièces d'origine",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-[13px] text-[#A09A8E]">
+                <div key={item} className="flex items-center gap-3 text-[13px] text-gray-600 dark:text-[#A09A8E]">
                   <Icon name="CheckCircleIcon" size={16} variant="solid" className="text-[#E8A020] flex-shrink-0" />
                   {item}
                 </div>

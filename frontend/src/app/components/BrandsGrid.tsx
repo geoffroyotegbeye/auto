@@ -75,7 +75,7 @@ export default function BrandsGrid() {
   if (loading) {
     return (
       <section className="py-32 max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="text-center text-[#A09A8E]">
+        <div className="text-center text-gray-600 dark:text-[#A09A8E]">
           <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
           Chargement des marques...
         </div>
@@ -97,7 +97,7 @@ export default function BrandsGrid() {
           <h2 className="section-title reveal-hidden delay-1">
             Parcourir
             <br />
-            <span className="italic font-light text-[#A09A8E]">par marque.</span>
+            <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">par marque.</span>
           </h2>
         </div>
         <Link href="/products" className="btn-outline reveal-hidden delay-2 self-start md:self-auto">
@@ -124,8 +124,8 @@ export default function BrandsGrid() {
                 <Icon name="TruckIcon" size={20} className="text-[#E8A020]" />
               )}
             </div>
-            <span className="font-bold text-[13px] text-[#F5F0E8] text-center">{brand.name}</span>
-            <span className="text-[10px] text-[#5A5550] font-medium">
+            <span className="font-bold text-[13px] text-gray-900 dark:text-[#F5F0E8] text-center">{brand.name}</span>
+            <span className="text-[10px] text-gray-500 dark:text-[#5A5550] font-medium">
               {brand.vehicleCount} {brand.vehicleCount === 1 ? 'annonce' : 'annonces'}
             </span>
           </Link>

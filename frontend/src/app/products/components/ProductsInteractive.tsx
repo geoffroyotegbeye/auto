@@ -4,19 +4,19 @@ import { useState, useMemo, useEffect } from "react";
 import Icon from "@/components/ui/AppIcon";
 import FilterSidebar from "./FilterSidebar";
 import VehicleCard, { VehicleItem } from "./VehicleCard";
-import { vehiclesAPI } from "@/services/api";
+import { vehiclesAPI, configAPI } from "@/services/api";
 
-const defaultFilters = {
+const getDefaultFilters = (minPrice = 0, maxPrice = 100000000) => ({
   brands: [] as string[],
-  priceMin: 0,
-  priceMax: 200000,
+  priceMin: minPrice,
+  priceMax: maxPrice,
   yearMin: 2010,
   yearMax: 2024,
   fuels: [] as string[],
   bodyStyles: [] as string[],
   transmissions: [] as string[],
   kmMax: 200000
-};
+});
 
 const sortOptions = [
 { value: "recent", label: "Plus récent" },
@@ -29,7 +29,7 @@ const sortOptions = [
 const ITEMS_PER_PAGE = 12;
 
 export default function ProductsInteractive() {
-  const [filters, setFilters] = useState(defaultFilters);
+  const [filters, setFilters] = useState(getDefaultFilters());
   const [sort, setSort] = useState("recent");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
@@ -38,6 +38,8 @@ export default function ProductsInteractive() {
   const [vehicles, setVehicles] = useState<VehicleItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [priceRange, setPriceRange] = useState({ minPrice: 0, maxPrice: 100000000 });
+  const [currency, setCurrency] = useState('FCFA');
 
   useEffect(() => {
     setMounted(true);
@@ -45,10 +47,15 @@ export default function ProductsInteractive() {
 
   useEffect(() => {
     if (!mounted) return;
-    const fetchVehicles = async () => {
+    const fetchData = async () => {
       try {
-        const data = await vehiclesAPI.getAll({ status: 'available' });
-        const vehiclesList = Array.isArray(data) ? data : (data.vehicles || []);
+        const [vehiclesData, priceData, configData] = await Promise.all([
+          vehiclesAPI.getAll({ status: 'available' }),
+          configAPI.getPriceRange(),
+          configAPI.get()
+        ]);
+        
+        const vehiclesList = Array.isArray(vehiclesData) ? vehiclesData : (vehiclesData.vehicles || []);
         const mapped = vehiclesList.map((v: any) => ({
           id: v.id.toString(),
           brand: v.brand,
@@ -69,13 +76,16 @@ export default function ProductsInteractive() {
           daysAgo: 0
         }));
         setVehicles(mapped);
+        setPriceRange(priceData);
+        setCurrency(configData.currency_symbol || 'FCFA');
+        setFilters(getDefaultFilters(priceData.minPrice, priceData.maxPrice));
       } catch (error) {
-        console.error('Erreur chargement véhicules:', error);
+        console.error('Erreur chargement données:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchVehicles();
+    fetchData();
   }, [mounted]);
 
   useEffect(() => {
@@ -128,7 +138,7 @@ export default function ProductsInteractive() {
   filters.fuels.length +
   filters.transmissions.length +
   filters.bodyStyles.length + (
-  filters.priceMax < 200000 ? 1 : 0) + (
+  filters.priceMin > priceRange.minPrice || filters.priceMax < priceRange.maxPrice ? 1 : 0) + (
   filters.yearMin > 2010 || filters.yearMax < 2024 ? 1 : 0);
 
   const removeFilter = (type: string, value: string) => {
@@ -152,7 +162,7 @@ export default function ProductsInteractive() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         {/* Search */}
         <div className="relative w-full sm:w-80">
-          <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#5A5550]" />
+          <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-[#5A5550]" />
           <input
             type="text"
             placeholder="Marque, modèle, version..."
@@ -193,14 +203,14 @@ export default function ProductsInteractive() {
           <div className="flex items-center border border-[rgba(245,240,232,0.12)] rounded-xl overflow-hidden">
             <button
               onClick={() => setView("grid")}
-              className={`p-2.5 transition-colors ${view === "grid" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-[#A09A8E] hover:text-[#F5F0E8]"}`}
+              className={`p-2.5 transition-colors ${view === "grid" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]"}`}
               aria-label="Vue grille">
               
               <Icon name="Squares2X2Icon" size={16} />
             </button>
             <button
               onClick={() => setView("list")}
-              className={`p-2.5 transition-colors ${view === "list" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-[#A09A8E] hover:text-[#F5F0E8]"}`}
+              className={`p-2.5 transition-colors ${view === "list" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]"}`}
               aria-label="Vue liste">
               
               <Icon name="ListBulletIcon" size={16} />
@@ -234,7 +244,7 @@ export default function ProductsInteractive() {
         )}
           <button
           onClick={() => setFilters(defaultFilters)}
-          className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#5A5550] hover:text-[#E8A020] transition-colors px-2">
+          className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 dark:text-[#5A5550] hover:text-[#E8A020] transition-colors px-2">
           
             Tout effacer
           </button>
@@ -247,21 +257,23 @@ export default function ProductsInteractive() {
         <FilterSidebar
           filters={filters}
           onChange={(f) => {setFilters(f);setPage(1);}}
-          onReset={() => {setFilters(defaultFilters);setPage(1);}}
+          onReset={() => {setFilters(getDefaultFilters(priceRange.minPrice, priceRange.maxPrice));setPage(1);}}
           isOpen={mobileFilterOpen}
-          onClose={() => setMobileFilterOpen(false)} />
+          onClose={() => setMobileFilterOpen(false)}
+          priceRange={priceRange}
+          currency={currency} />
         
 
         {/* Results */}
         <div className="flex-1 min-w-0">
           {/* Results count */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-[13px] text-[#A09A8E]">
-              <span className="font-bold text-[#F5F0E8] text-lg font-display">{filtered.length}</span>{" "}
+            <p className="text-[13px] text-gray-600 dark:text-[#A09A8E]">
+              <span className="font-bold text-gray-900 dark:text-[#F5F0E8] text-lg font-display">{filtered.length}</span>{" "}
               véhicule{filtered.length !== 1 ? "s" : ""} trouvé{filtered.length !== 1 ? "s" : ""}
             </p>
             {totalPages > 1 &&
-            <p className="text-[11px] text-[#5A5550]">
+            <p className="text-[11px] text-gray-500 dark:text-[#5A5550]">
                 Page {page} / {totalPages}
               </p>
             }
@@ -270,11 +282,11 @@ export default function ProductsInteractive() {
           {/* Grid */}
           {paginated.length === 0 ?
           <div className="text-center py-32">
-              <Icon name="MagnifyingGlassIcon" size={48} className="text-[#5A5550] mx-auto mb-4" />
-              <p className="font-display text-2xl font-bold text-[#A09A8E]">Aucun résultat</p>
-              <p className="text-[#5A5550] mt-2 text-sm">Essayez d'élargir vos critères de recherche</p>
+              <Icon name="MagnifyingGlassIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
+              <p className="font-display text-2xl font-bold text-gray-600 dark:text-[#A09A8E]">Aucun résultat</p>
+              <p className="text-gray-500 dark:text-[#5A5550] mt-2 text-sm">Essayez d'élargir vos critères de recherche</p>
               <button
-              onClick={() => {setFilters(defaultFilters);setSearchQuery("");}}
+              onClick={() => {setFilters(getDefaultFilters(priceRange.minPrice, priceRange.maxPrice));setSearchQuery("");}}
               className="btn-primary mt-6">
               
                 Réinitialiser les filtres
@@ -313,7 +325,7 @@ export default function ProductsInteractive() {
               className={`w-10 h-10 rounded-lg text-[12px] font-bold transition-all ${
               p === page ?
               "bg-[#E8A020] text-[#0D0D0D]" :
-              "border border-[rgba(245,240,232,0.12)] text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020]"}`
+              "border border-[rgba(245,240,232,0.12)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020]"}`
               }>
               
                   {p}

@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import pool from '../config/database.js';
+import { sanitizeUpdateData } from '../utils/sanitize.js';
 
 export const getAllBrands = async (req, res) => {
   try {
@@ -69,7 +70,7 @@ export const createBrand = async (req, res) => {
 export const updateBrand = async (req, res) => {
   try {
     const { id } = req.params;
-    const brandData = req.body;
+    let brandData = sanitizeUpdateData(req.body);
 
     // Gérer l'upload du logo si présent
     if (req.file) {

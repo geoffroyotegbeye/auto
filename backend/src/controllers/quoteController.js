@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import pool from '../config/database.js';
 import { sendEmail } from '../utils/email.js';
+import { sanitizeUpdateData } from '../utils/sanitize.js';
 
 export const createQuote = async (req, res) => {
   const errors = validationResult(req);
@@ -84,7 +85,7 @@ export const getQuoteById = async (req, res) => {
 export const updateQuote = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = req.body;
+    const updateData = sanitizeUpdateData(req.body);
 
     const [result] = await pool.query('UPDATE quotes SET ? WHERE id = ?', [updateData, id]);
 

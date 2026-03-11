@@ -47,17 +47,17 @@ cp .env.example .env
 
 # Créer la base de données MySQL
 mysql -u root -p
-CREATE DATABASE vehiclemarket CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE auto CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 exit;
 
-# Exécuter les migrations
-npm run db:migrate
+# Exécuter les migrations et seeds (tout en une commande)
+npm run db:reset
 
 # Démarrer le serveur
 npm run dev
 ```
 
-Le backend sera accessible sur http://localhost:5000
+Le backend sera accessible sur http://localhost:5001
 
 ### 2. Frontend
 
@@ -68,7 +68,7 @@ cd frontend
 npm install
 
 # Créer le fichier .env.local
-echo "NEXT_PUBLIC_API_URL=http://localhost:5000/api" > .env.local
+echo "NEXT_PUBLIC_API_URL=http://localhost:5001/api" > .env.local
 
 # Démarrer l'application
 npm run dev

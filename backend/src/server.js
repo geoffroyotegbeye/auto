@@ -13,6 +13,7 @@ import contactRoutes from './routes/contact.js';
 import reviewRoutes from './routes/reviews.js';
 import serviceRoutes from './routes/services.js';
 import authRoutes from './routes/auth.js';
+import configRoutes from './routes/config.js';
 import brandRoutes from './routes/brands.js';
 import heroRoutes from './routes/hero.js';
 
@@ -57,6 +58,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/config', configRoutes);
 app.use('/api/brands', brandRoutes);
 app.use('/api/hero', heroRoutes);
 

@@ -61,7 +61,7 @@ export default function FeaturedVehicles() {
   if (loading) {
     return (
       <section className="py-32 max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="text-center text-[#A09A8E]">Chargement des véhicules...</div>
+        <div className="text-center text-gray-600 dark:text-[#A09A8E]">Chargement des véhicules...</div>
       </section>
     );
   }
@@ -69,7 +69,7 @@ export default function FeaturedVehicles() {
   if (vehicles.length === 0) {
     return (
       <section className="py-32 max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="text-center text-[#A09A8E]">Aucun véhicule disponible</div>
+        <div className="text-center text-gray-600 dark:text-[#A09A8E]">Aucun véhicule disponible</div>
       </section>
     );
   }
@@ -85,7 +85,7 @@ export default function FeaturedVehicles() {
           <h2 className="section-title reveal-hidden delay-1">
             Véhicules
             <br />
-            <span className="italic font-light text-[#A09A8E]">en vedette.</span>
+            <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">en vedette.</span>
           </h2>
         </div>
         <Link href="/products" className="btn-outline reveal-hidden delay-2 self-start md:self-auto">
@@ -116,11 +116,11 @@ export default function FeaturedVehicles() {
             <div className="p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">
                     {vehicles[0].brand}
                   </p>
                   <p className="font-display text-xl font-bold mt-1">{vehicles[0].model}</p>
-                  <div className="flex items-center gap-3 mt-2 text-[11px] text-[#A09A8E]">
+                  <div className="flex items-center gap-3 mt-2 text-[11px] text-gray-600 dark:text-[#A09A8E]">
                     <span>{vehicles[0].year}</span>
                     <span>·</span>
                     <span>{vehicles[0].km.toLocaleString()} km</span>
@@ -134,7 +134,7 @@ export default function FeaturedVehicles() {
               </div>
               <Link
                 href="/products"
-                className="mt-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#A09A8E] hover:text-[#E8A020] transition-colors"
+                className="mt-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020] transition-colors"
               >
                 Voir détails
                 <Icon name="ArrowRightIcon" size={12} />
@@ -163,11 +163,11 @@ export default function FeaturedVehicles() {
             <div className="p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">
                     {v.brand}
                   </p>
                   <p className="font-display text-lg font-bold mt-1">{v.model}</p>
-                  <div className="flex items-center gap-2 mt-1 text-[10px] text-[#A09A8E]">
+                  <div className="flex items-center gap-2 mt-1 text-[10px] text-gray-600 dark:text-[#A09A8E]">
                     <span>{v.year}</span>
                     <span>·</span>
                     <span>{v.km.toLocaleString()} km</span>
@@ -192,11 +192,11 @@ export default function FeaturedVehicles() {
               />
             </div>
             <div className="p-5 flex flex-col justify-center">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5550]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">
                 {v.brand}
               </p>
               <p className="font-display text-lg font-bold mt-1">{v.model}</p>
-              <div className="flex items-center gap-2 mt-1 text-[10px] text-[#A09A8E]">
+              <div className="flex items-center gap-2 mt-1 text-[10px] text-gray-600 dark:text-[#A09A8E]">
                 <span>{v.year}</span>
                 <span>·</span>
                 <span>{v.fuel}</span>

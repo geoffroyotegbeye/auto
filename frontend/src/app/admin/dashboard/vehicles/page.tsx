@@ -357,8 +357,8 @@ export default function VehiclesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-[#F5F0E8]">Gestion des véhicules</h2>
-          <p className="text-sm text-[#A09A8E] mt-1">{vehicles.length} véhicule(s)</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">Gestion des véhicules</h2>
+          <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">{vehicles.length} véhicule(s)</p>
         </div>
         <button onClick={handleCreate} className="btn-primary px-6 py-3">
           <Icon name="PlusIcon" size={16} />
@@ -375,7 +375,7 @@ export default function VehiclesPage() {
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all ${
               filter === status
                 ? 'bg-[#E8A020] text-[#0D0D0D]'
-                : 'bg-[#1A1A1A] text-[#A09A8E] hover:bg-[#222222]'
+                : 'bg-white dark:bg-[#1A1A1A] text-gray-600 dark:text-[#A09A8E] hover:bg-gray-100 dark:bg-[#222222]'
             }`}
           >
             {status === 'all' ? 'Tous' : status === 'available' ? 'Disponible' : status === 'reserved' ? 'Réservé' : 'Vendu'}
@@ -384,34 +384,34 @@ export default function VehiclesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-[#141414] border-b border-[rgba(245,240,232,0.08)]">
+            <thead className="bg-gray-50 dark:bg-[#141414] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A09A8E]">
+                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E]">
                   Véhicule
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A09A8E]">
+                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E]">
                   Prix
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A09A8E]">
+                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E]">
                   Année / KM
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A09A8E]">
+                <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E]">
                   Statut
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-[#A09A8E]">
+                <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E]">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[rgba(245,240,232,0.08)]">
               {currentVehicles.map((vehicle) => (
-                <tr key={vehicle.id} className="hover:bg-[#141414] transition-colors">
+                <tr key={vehicle.id} className="hover:bg-gray-50 dark:bg-[#141414] transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-[#141414] flex-shrink-0">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-50 dark:bg-[#141414] flex-shrink-0">
                         <img
                           src={`${getImageUrl(vehicle.main_image)}?t=${imageRefreshKey}`}
                           alt={vehicle.model}
@@ -419,10 +419,10 @@ export default function VehiclesPage() {
                         />
                       </div>
                       <div>
-                        <p className="font-bold text-[#F5F0E8]">
+                        <p className="font-bold text-gray-900 dark:text-[#F5F0E8]">
                           {vehicle.brand} {vehicle.model}
                         </p>
-                        <p className="text-sm text-[#A09A8E]">{vehicle.version}</p>
+                        <p className="text-sm text-gray-600 dark:text-[#A09A8E]">{vehicle.version}</p>
                       </div>
                     </div>
                   </td>
@@ -432,8 +432,8 @@ export default function VehiclesPage() {
                     </p>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-sm text-[#F5F0E8]">{vehicle.year || 'N/A'}</p>
-                    <p className="text-xs text-[#A09A8E]">{vehicle.km ? vehicle.km.toLocaleString('fr-FR') : '0'} km</p>
+                    <p className="text-sm text-gray-900 dark:text-[#F5F0E8]">{vehicle.year || 'N/A'}</p>
+                    <p className="text-xs text-gray-600 dark:text-[#A09A8E]">{vehicle.km ? vehicle.km.toLocaleString('fr-FR') : '0'} km</p>
                   </td>
                   <td className="px-6 py-4">
                     <span
@@ -452,13 +452,13 @@ export default function VehiclesPage() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleEdit(vehicle)}
-                        className="p-2 text-[#A09A8E] hover:text-[#E8A020] transition-colors"
+                        className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020] transition-colors"
                       >
                         <Icon name="PencilIcon" size={16} />
                       </button>
                       <button
                         onClick={() => handleDelete(vehicle.id)}
-                        className="p-2 text-[#A09A8E] hover:text-rose-400 transition-colors"
+                        className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-rose-400 transition-colors"
                       >
                         <Icon name="TrashIcon" size={16} />
                       </button>
@@ -472,8 +472,8 @@ export default function VehiclesPage() {
 
         {vehicles.length === 0 && (
           <div className="text-center py-12">
-            <Icon name="TruckIcon" size={48} className="text-[#5A5550] mx-auto mb-4" />
-            <p className="text-[#A09A8E]">Aucun véhicule trouvé</p>
+            <Icon name="TruckIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-[#A09A8E]">Aucun véhicule trouvé</p>
           </div>
         )}
       </div>
@@ -484,7 +484,7 @@ export default function VehiclesPage() {
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] hover:bg-[#222222] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-100 dark:bg-[#222222] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Icon name="ChevronLeftIcon" size={16} />
           </button>
@@ -496,7 +496,7 @@ export default function VehiclesPage() {
               className={`px-4 py-2 rounded-lg transition-colors ${
                 currentPage === page
                   ? 'bg-[#E8A020] text-[#0D0D0D] font-bold'
-                  : 'bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] text-[#F5F0E8] hover:bg-[#222222]'
+                  : 'bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-100 dark:bg-[#222222]'
               }`}
             >
               {page}
@@ -506,7 +506,7 @@ export default function VehiclesPage() {
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] hover:bg-[#222222] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-100 dark:bg-[#222222] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Icon name="ChevronRightIcon" size={16} />
           </button>
@@ -516,14 +516,14 @@ export default function VehiclesPage() {
       {/* Modal de modification */}
       {showModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-[#1A1A1A] border-b border-[rgba(245,240,232,0.08)] px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-[#F5F0E8]">
+          <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white dark:bg-[#1A1A1A] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)] px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">
                 {isCreating ? 'Ajouter un véhicule' : 'Modifier le véhicule'}
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-2 text-[#A09A8E] hover:text-[#F5F0E8] transition-colors"
+                className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8] transition-colors"
               >
                 <Icon name="XMarkIcon" size={24} />
               </button>
@@ -532,77 +532,77 @@ export default function VehiclesPage() {
             <form onSubmit={handleSave} className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Marque *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Marque *</label>
                   <input
                     type="text"
                     value={formData.brand}
                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Modèle *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Modèle *</label>
                   <input
                     type="text"
                     value={formData.model}
                     onChange={(e) => setFormData({ ...formData, model: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Version</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Version</label>
                   <input
                     type="text"
                     value={formData.version}
                     onChange={(e) => setFormData({ ...formData, version: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Prix (FCFA) *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Prix (FCFA) *</label>
                   <input
                     type="number"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Année *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Année *</label>
                   <input
                     type="number"
                     value={formData.year}
                     onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Kilométrage *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Kilométrage *</label>
                   <input
                     type="number"
                     value={formData.km}
                     onChange={(e) => setFormData({ ...formData, km: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Carburant *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Carburant *</label>
                   <select
                     value={formData.fuel}
                     onChange={(e) => setFormData({ ...formData, fuel: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   >
                     <option value="Essence">Essence</option>
                     <option value="Diesel">Diesel</option>
@@ -613,12 +613,12 @@ export default function VehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Transmission *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Transmission *</label>
                   <select
                     value={formData.transmission}
                     onChange={(e) => setFormData({ ...formData, transmission: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   >
                     <option value="Manuelle">Manuelle</option>
                     <option value="Automatique">Automatique</option>
@@ -626,22 +626,22 @@ export default function VehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Couleur</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Couleur</label>
                   <input
                     type="text"
                     value={formData.color}
                     onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Statut *</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Statut *</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     required
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   >
                     <option value="available">Disponible</option>
                     <option value="reserved">Réservé</option>
@@ -650,11 +650,11 @@ export default function VehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Type de carrosserie</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Type de carrosserie</label>
                   <select
                     value={formData.body_style}
                     onChange={(e) => setFormData({ ...formData, body_style: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   >
                     <option value="">Sélectionner...</option>
                     <option value="Berline">Berline</option>
@@ -669,22 +669,22 @@ export default function VehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Badge</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Badge</label>
                   <input
                     type="text"
                     value={formData.badge}
                     onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
                     placeholder="Ex: Nouveau, Promo, -20%"
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Type de badge</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Type de badge</label>
                   <select
                     value={formData.badge_type}
                     onChange={(e) => setFormData({ ...formData, badge_type: e.target.value })}
-                    className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
                   >
                     <option value="">Aucun</option>
                     <option value="badge-new">Nouveau (Orange)</option>
@@ -696,53 +696,53 @@ export default function VehiclesPage() {
 
               {/* Checkboxes */}
               <div className="grid grid-cols-2 gap-4">
-                <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
+                <label className="flex items-center gap-3 p-4 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
                   <input
                     type="checkbox"
                     checked={formData.is_featured}
                     onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
+                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-white dark:bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
                   />
                   <div>
-                    <p className="text-sm font-medium text-[#F5F0E8]">Véhicule en vedette</p>
-                    <p className="text-xs text-[#A09A8E]">Afficher dans la section "En vedette"</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Véhicule en vedette</p>
+                    <p className="text-xs text-gray-600 dark:text-[#A09A8E]">Afficher dans la section "En vedette"</p>
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
+                <label className="flex items-center gap-3 p-4 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg cursor-pointer hover:border-[#E8A020] transition-colors">
                   <input
                     type="checkbox"
                     checked={formData.is_new}
                     onChange={(e) => setFormData({ ...formData, is_new: e.target.checked })}
-                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
+                    className="w-5 h-5 rounded border-[rgba(245,240,232,0.2)] bg-white dark:bg-[#0D0D0D] text-[#E8A020] focus:ring-[#E8A020] focus:ring-offset-0"
                   />
                   <div>
-                    <p className="text-sm font-medium text-[#F5F0E8]">Véhicule neuf</p>
-                    <p className="text-xs text-[#A09A8E]">Marquer comme véhicule neuf</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Véhicule neuf</p>
+                    <p className="text-xs text-gray-600 dark:text-[#A09A8E]">Marquer comme véhicule neuf</p>
                   </div>
                 </label>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#F5F0E8] mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
-                  className="w-full px-4 py-2 bg-[#0D0D0D] border border-[rgba(245,240,232,0.08)] rounded-lg text-[#F5F0E8] focus:outline-none focus:border-[#E8A020] resize-none"
+                  className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020] resize-none"
                 />
               </div>
 
               {/* Upload d'images */}
               <div>
-                <label className="block text-sm font-medium text-[#F5F0E8] mb-2">
+                <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">
                   Images (max 5 au total) {isCreating && '*'}
                 </label>
                 <div className="space-y-4">
                   {/* Images existantes (seulement en mode édition) */}
                   {!isCreating && existingImages.length > 0 && (
                     <div>
-                      <p className="text-xs text-[#A09A8E] mb-2">Images actuelles :</p>
+                      <p className="text-xs text-gray-600 dark:text-[#A09A8E] mb-2">Images actuelles :</p>
                       <div className="grid grid-cols-5 gap-3">
                         {existingImages.map((imageUrl, index) => {
                           const isMarkedForDeletion = imagesToDelete.includes(imageUrl);
@@ -751,7 +751,7 @@ export default function VehiclesPage() {
                               <img
                                 src={`${getImageUrl(imageUrl)}?t=${imageRefreshKey}`}
                                 alt={`Image ${index + 1}`}
-                                className={`w-full h-24 object-cover rounded-lg border border-[rgba(245,240,232,0.08)] ${
+                                className={`w-full h-24 object-cover rounded-lg border border-gray-200 dark:border-[rgba(245,240,232,0.08)] ${
                                   isMarkedForDeletion ? 'opacity-30' : ''
                                 }`}
                               />
@@ -791,7 +791,7 @@ export default function VehiclesPage() {
                     />
                     <label
                       htmlFor="image-upload"
-                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#0D0D0D] border-2 border-dashed border-[rgba(245,240,232,0.2)] rounded-lg text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020] transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-white dark:bg-[#0D0D0D] border-2 border-dashed border-[rgba(245,240,232,0.2)] rounded-lg text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020] transition-colors cursor-pointer"
                     >
                       <Icon name="PhotoIcon" size={20} />
                       <span className="text-sm">
@@ -805,14 +805,14 @@ export default function VehiclesPage() {
                   {/* Prévisualisation des nouvelles images */}
                   {previewUrls.length > 0 && (
                     <div>
-                      <p className="text-xs text-[#A09A8E] mb-2">Nouvelles images à ajouter :</p>
+                      <p className="text-xs text-gray-600 dark:text-[#A09A8E] mb-2">Nouvelles images à ajouter :</p>
                       <div className="grid grid-cols-5 gap-3">
                         {previewUrls.map((url, index) => (
                           <div key={index} className="relative group">
                             <img
                               src={url}
                               alt={`Nouvelle ${index + 1}`}
-                              className="w-full h-24 object-cover rounded-lg border border-[rgba(245,240,232,0.08)]"
+                              className="w-full h-24 object-cover rounded-lg border border-gray-200 dark:border-[rgba(245,240,232,0.08)]"
                             />
                             <button
                               type="button"
@@ -829,11 +829,11 @@ export default function VehiclesPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(245,240,232,0.08)]">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-6 py-2 text-sm text-[#A09A8E] hover:text-[#F5F0E8] transition-colors"
+                  className="px-6 py-2 text-sm text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8] transition-colors"
                 >
                   Annuler
                 </button>

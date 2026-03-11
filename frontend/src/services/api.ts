@@ -152,6 +152,13 @@ export const authAPI = {
   },
 };
 
+// Configuration
+export const configAPI = {
+  get: () => fetchAPI('/config'),
+  update: (data: any) => fetchAPI('/config', { method: 'PUT', body: JSON.stringify(data) }),
+  getPriceRange: () => fetchAPI('/config/price-range'),
+};
+
 // Marques
 export const brandsAPI = {
   getAll: (params?: Record<string, any>) => {

@@ -9,14 +9,15 @@ import Icon from '@/components/ui/AppIcon';
 
 const menuItems = [
   { icon: 'ChartBarIcon', label: 'Dashboard', href: '/admin/dashboard' },
-  { icon: 'HomeIcon', label: 'Hero', href: '/admin/dashboard/hero' },
   { icon: 'TruckIcon', label: 'Véhicules', href: '/admin/dashboard/vehicles' },
   { icon: 'TagIcon', label: 'Marques', href: '/admin/dashboard/brands' },
+  { icon: 'PhotoIcon', label: 'Hero', href: '/admin/dashboard/hero' },
   { icon: 'CalendarIcon', label: 'Rendez-vous', href: '/admin/dashboard/appointments' },
   { icon: 'DocumentTextIcon', label: 'Devis', href: '/admin/dashboard/quotes' },
   { icon: 'ChatBubbleLeftIcon', label: 'Messages', href: '/admin/dashboard/contacts' },
   { icon: 'StarIcon', label: 'Avis clients', href: '/admin/dashboard/reviews' },
   { icon: 'WrenchScrewdriverIcon', label: 'Services SAV', href: '/admin/dashboard/services' },
+  { icon: 'Cog6ToothIcon', label: 'Configuration', href: '/admin/dashboard/config' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -40,31 +41,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0D0D0D] flex items-center justify-center">
         <div className="text-center">
           <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
-          <p className="text-[#A09A8E]">Chargement...</p>
+          <p className="text-gray-600 dark:text-[#A09A8E]">Chargement...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] flex">
+    <div className="min-h-screen bg-white dark:bg-[#0D0D0D] flex">
       {/* Sidebar */}
       <aside
         className={`${
           sidebarOpen ? 'w-64' : 'w-20'
-        } bg-[#141414] border-r border-[rgba(245,240,232,0.08)] transition-all duration-300 flex flex-col fixed h-full z-50`}
+        } bg-gray-50 dark:bg-[#141414] border-r border-gray-200 dark:border-[rgba(245,240,232,0.08)] transition-all duration-300 flex flex-col fixed h-full z-50`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-[rgba(245,240,232,0.08)]">
+        <div className="p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
           {sidebarOpen ? (
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-[#F5F0E8] tracking-tight">
+              <span className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8] tracking-tight">
                 Mig Motor
               </span>
-              <span className="text-xs text-[#5A5550]">Admin</span>
+              <span className="text-xs text-gray-500 dark:text-[#5A5550]">Admin</span>
             </div>
           ) : (
             <span className="text-xl font-bold text-[#E8A020] mx-auto">M</span>
@@ -82,7 +83,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive
                     ? 'bg-[#E8A020] text-[#0D0D0D]'
-                    : 'text-[#A09A8E] hover:bg-[#1A1A1A] hover:text-[#F5F0E8]'
+                    : 'text-gray-600 dark:text-[#A09A8E] hover:bg-white dark:bg-[#1A1A1A] hover:text-gray-900 dark:text-[#F5F0E8]'
                 }`}
                 title={!sidebarOpen ? item.label : undefined}
               >
@@ -94,7 +95,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* User */}
-        <div className="p-4 border-t border-[rgba(245,240,232,0.08)]">
+        <div className="p-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
           {sidebarOpen ? (
             <div className="space-y-3">
               <div className="flex items-center gap-3 px-4 py-2">
@@ -102,13 +103,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {user.name.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#F5F0E8] truncate">{user.name}</p>
-                  <p className="text-xs text-[#5A5550] truncate">{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8] truncate">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-[#5A5550] truncate">{user.email}</p>
                 </div>
               </div>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-[#A09A8E] hover:text-red-400 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-[#A09A8E] hover:text-red-400 transition-colors"
               >
                 <Icon name="ArrowRightOnRectangleIcon" size={16} />
                 Déconnexion
@@ -117,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ) : (
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center p-2 text-[#A09A8E] hover:text-red-400 transition-colors"
+              className="w-full flex items-center justify-center p-2 text-gray-600 dark:text-[#A09A8E] hover:text-red-400 transition-colors"
               title="Déconnexion"
             >
               <Icon name="ArrowRightOnRectangleIcon" size={20} />
@@ -141,13 +142,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main Content */}
       <main className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
         {/* Top Bar */}
-        <header className="bg-[#141414] border-b border-[rgba(245,240,232,0.08)] px-8 py-4 sticky top-0 z-40">
+        <header className="bg-gray-50 dark:bg-[#141414] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)] px-8 py-4 sticky top-0 z-40">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-[#F5F0E8]">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">
                 {menuItems.find((item) => item.href === pathname)?.label || 'Dashboard'}
               </h1>
-              <p className="text-sm text-[#5A5550] mt-1">
+              <p className="text-sm text-gray-500 dark:text-[#5A5550] mt-1">
                 Bienvenue, {user.name}
               </p>
             </div>

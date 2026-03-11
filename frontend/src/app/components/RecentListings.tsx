@@ -76,7 +76,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
     >
       <Link href="/products">
         <div
-          className="group relative bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-2xl overflow-hidden hover:border-[#E8A020] transition-all duration-300"
+          className="group relative bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-2xl overflow-hidden hover:border-[#E8A020] transition-all duration-300"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{
@@ -120,7 +120,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
             
             {/* Days ago */}
             <div className="absolute bottom-4 right-4">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A09A8E]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600 dark:text-[#A09A8E]">
                 {daysAgo === 0 ? "Aujourd'hui" : `Il y a ${daysAgo}j`}
               </span>
             </div>
@@ -133,7 +133,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
                 <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A020] mb-1">
                   {vehicle.brand}
                 </p>
-                <h3 className="font-display text-xl font-bold text-[#F5F0E8]">
+                <h3 className="font-display text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">
                   {vehicle.model}
                 </h3>
               </div>
@@ -141,7 +141,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
                 <p className="font-display text-xl font-bold text-[#E8A020]">
                   {vehicle.price.toLocaleString("fr-FR")} FCFA
                 </p>
-                <p className="text-[10px] text-[#5A5550] mt-0.5">{vehicle.year}</p>
+                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mt-0.5">{vehicle.year}</p>
               </div>
             </div>
 
@@ -151,16 +151,16 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
               style={{ borderTop: "1px solid rgba(245,240,232,0.06)" }}
             >
               <div className="flex items-center gap-1.5">
-                <Icon name="ChartBarIcon" size={11} className="text-[#5A5550]" />
-                <span className="text-[10px] text-[#A09A8E]">{vehicle.km.toLocaleString("fr-FR")} km</span>
+                <Icon name="ChartBarIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.km.toLocaleString("fr-FR")} km</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Icon name="BoltIcon" size={11} className="text-[#5A5550]" />
-                <span className="text-[10px] text-[#A09A8E]">{vehicle.fuel}</span>
+                <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.fuel}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Icon name="CogIcon" size={11} className="text-[#5A5550]" />
-                <span className="text-[10px] text-[#A09A8E]">{vehicle.transmission}</span>
+                <Icon name="CogIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
+                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.transmission}</span>
               </div>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function RecentListings() {
 
   if (loading) {
     return (
-      <section className="py-32 bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+      <section className="py-32 bg-gray-50 dark:bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
         {/* Background grid + glow */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -244,16 +244,16 @@ export default function RecentListings() {
               <h2 className="section-title">
                 Ajoutées
                 <br />
-                <span className="italic font-light text-[#A09A8E]">récemment.</span>
+                <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">récemment.</span>
               </h2>
-              <p className="text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+              <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
                 Découvrez les dernières annonces ajoutées sur notre plateforme.
                 Survol pour l'effet 3D.
               </p>
             </div>
           </div>
 
-          <div className="text-center text-[#A09A8E] py-12">
+          <div className="text-center text-gray-600 dark:text-[#A09A8E] py-12">
             <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
             Chargement des annonces...
           </div>
@@ -263,7 +263,7 @@ export default function RecentListings() {
   }
 
   return (
-    <section className="py-32 bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+    <section className="py-32 bg-gray-50 dark:bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
       {/* Background grid + glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -297,9 +297,9 @@ export default function RecentListings() {
             <h2 className="section-title">
               Nouveautés
               <br />
-              <span className="italic font-light text-[#A09A8E]">du showroom.</span>
+              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">du showroom.</span>
             </h2>
-            <p className="text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+            <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
               Découvrez les dernières annonces ajoutées sur notre plateforme.
             </p>
           </div>
@@ -320,7 +320,7 @@ export default function RecentListings() {
                   className={`px-4 py-2 text-[9px] font-bold uppercase tracking-[0.25em] rounded-full transition-all ${
                     activeFilter === f
                       ? "bg-[#E8A020] text-[#0D0D0D]"
-                      : "bg-[rgba(232,160,32,0.08)] border border-[rgba(232,160,32,0.2)] text-[#A09A8E] hover:border-[#E8A020]"
+                      : "bg-[rgba(232,160,32,0.08)] border border-[rgba(232,160,32,0.2)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020]"
                   }`}
                 >
                   {f}
@@ -342,8 +342,8 @@ export default function RecentListings() {
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <Icon name="TruckIcon" size={48} className="text-[#5A5550] mx-auto mb-4" />
-              <p className="text-[#A09A8E]">Aucun véhicule trouvé pour ce filtre</p>
+              <Icon name="TruckIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-[#A09A8E]">Aucun véhicule trouvé pour ce filtre</p>
             </div>
           )}
         </div>

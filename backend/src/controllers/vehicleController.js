@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import pool from '../config/database.js';
+import { sanitizeUpdateData } from '../utils/sanitize.js';
 
 export const getAllVehicles = async (req, res) => {
   try {
@@ -165,7 +166,7 @@ export const createVehicle = async (req, res) => {
 export const updateVehicle = async (req, res) => {
   try {
     const { id } = req.params;
-    const vehicleData = req.body;
+    let vehicleData = sanitizeUpdateData(req.body);
 
     // Récupérer les images existantes
     const [existingVehicle] = await pool.query('SELECT images, main_image FROM vehicles WHERE id = ?', [id]);

@@ -39,36 +39,36 @@ export default function QuotesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-[#F5F0E8]">Demandes de devis</h2>
-        <p className="text-sm text-[#A09A8E] mt-1">{quotes.length} demande(s)</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">Demandes de devis</h2>
+        <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">{quotes.length} demande(s)</p>
       </div>
 
-      <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl overflow-hidden">
         <table className="w-full">
-          <thead className="bg-[#141414] border-b border-[rgba(245,240,232,0.08)]">
+          <thead className="bg-gray-50 dark:bg-[#141414] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-[#A09A8E]">Client</th>
-              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-[#A09A8E]">Type</th>
-              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-[#A09A8E]">Véhicule</th>
-              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-[#A09A8E]">Statut</th>
-              <th className="px-6 py-4 text-right text-xs font-bold uppercase text-[#A09A8E]">Actions</th>
+              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-gray-600 dark:text-[#A09A8E]">Client</th>
+              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-gray-600 dark:text-[#A09A8E]">Type</th>
+              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-gray-600 dark:text-[#A09A8E]">Véhicule</th>
+              <th className="px-6 py-4 text-left text-xs font-bold uppercase text-gray-600 dark:text-[#A09A8E]">Statut</th>
+              <th className="px-6 py-4 text-right text-xs font-bold uppercase text-gray-600 dark:text-[#A09A8E]">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(245,240,232,0.08)]">
             {quotes.map((quote) => (
-              <tr key={quote.id} className="hover:bg-[#141414]">
+              <tr key={quote.id} className="hover:bg-gray-50 dark:bg-[#141414]">
                 <td className="px-6 py-4">
-                  <p className="font-bold text-[#F5F0E8]">{quote.first_name} {quote.last_name}</p>
-                  <p className="text-sm text-[#A09A8E]">{quote.email}</p>
+                  <p className="font-bold text-gray-900 dark:text-[#F5F0E8]">{quote.first_name} {quote.last_name}</p>
+                  <p className="text-sm text-gray-600 dark:text-[#A09A8E]">{quote.email}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="text-sm text-[#F5F0E8]">
+                  <span className="text-sm text-gray-900 dark:text-[#F5F0E8]">
                     {quote.type === 'new' ? 'Neuf' : quote.type === 'used' ? 'Occasion' : 'Leasing'}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="text-sm text-[#F5F0E8]">{quote.brand} {quote.model}</p>
-                  {quote.budget && <p className="text-xs text-[#A09A8E]">Budget: {quote.budget}€</p>}
+                  <p className="text-sm text-gray-900 dark:text-[#F5F0E8]">{quote.brand} {quote.model}</p>
+                  {quote.budget && <p className="text-xs text-gray-600 dark:text-[#A09A8E]">Budget: {quote.budget}€</p>}
                 </td>
                 <td className="px-6 py-4">
                   <select
@@ -83,7 +83,7 @@ export default function QuotesPage() {
                   </select>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button className="p-2 text-[#A09A8E] hover:text-[#E8A020]">
+                  <button className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020]">
                     <Icon name="EyeIcon" size={16} />
                   </button>
                 </td>

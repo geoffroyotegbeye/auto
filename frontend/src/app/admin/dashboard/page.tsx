@@ -102,7 +102,7 @@ export default function DashboardPage() {
           <Link
             key={card.label}
             href={card.href}
-            className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6 hover:border-[#E8A020] transition-all group"
+            className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6 hover:border-[#E8A020] transition-all group"
           >
             <div className="flex items-start justify-between mb-4">
               <div className={`w-12 h-12 rounded-lg ${card.bg} flex items-center justify-center`}>
@@ -111,46 +111,46 @@ export default function DashboardPage() {
               <Icon
                 name="ArrowRightIcon"
                 size={16}
-                className="text-[#5A5550] group-hover:text-[#E8A020] transition-colors"
+                className="text-gray-500 dark:text-[#5A5550] group-hover:text-[#E8A020] transition-colors"
               />
             </div>
-            <p className="text-3xl font-bold text-[#F5F0E8] mb-1">{card.value}</p>
-            <p className="text-sm text-[#A09A8E]">{card.label}</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-[#F5F0E8] mb-1">{card.value}</p>
+            <p className="text-sm text-gray-600 dark:text-[#A09A8E]">{card.label}</p>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-[#1A1A1A] border border-[rgba(245,240,232,0.08)] rounded-xl p-6">
-        <h2 className="text-lg font-bold text-[#F5F0E8] mb-4">Actions rapides</h2>
+      <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4">Actions rapides</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             href="/admin/dashboard/vehicles"
-            className="flex items-center gap-3 p-4 bg-[#141414] rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-[#141414] rounded-lg hover:bg-gray-100 dark:bg-[#222222] transition-colors"
           >
             <Icon name="PlusIcon" size={20} className="text-[#E8A020]" />
-            <span className="text-sm font-medium text-[#F5F0E8]">Ajouter un véhicule</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Ajouter un véhicule</span>
           </Link>
           <Link
             href="/admin/dashboard/appointments"
-            className="flex items-center gap-3 p-4 bg-[#141414] rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-[#141414] rounded-lg hover:bg-gray-100 dark:bg-[#222222] transition-colors"
           >
             <Icon name="CalendarIcon" size={20} className="text-[#E8A020]" />
-            <span className="text-sm font-medium text-[#F5F0E8]">Voir les RDV</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Voir les RDV</span>
           </Link>
           <Link
             href="/admin/dashboard/quotes"
-            className="flex items-center gap-3 p-4 bg-[#141414] rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-[#141414] rounded-lg hover:bg-gray-100 dark:bg-[#222222] transition-colors"
           >
             <Icon name="DocumentTextIcon" size={20} className="text-[#E8A020]" />
-            <span className="text-sm font-medium text-[#F5F0E8]">Gérer les devis</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Gérer les devis</span>
           </Link>
           <Link
             href="/admin/dashboard/reviews"
-            className="flex items-center gap-3 p-4 bg-[#141414] rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-[#141414] rounded-lg hover:bg-gray-100 dark:bg-[#222222] transition-colors"
           >
             <Icon name="StarIcon" size={20} className="text-[#E8A020]" />
-            <span className="text-sm font-medium text-[#F5F0E8]">Modérer les avis</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8]">Modérer les avis</span>
           </Link>
         </div>
       </div>
@@ -160,8 +160,8 @@ export default function DashboardPage() {
         <div className="flex items-start gap-4">
           <Icon name="InformationCircleIcon" size={24} className="text-[#E8A020] flex-shrink-0" />
           <div>
-            <h3 className="text-lg font-bold text-[#F5F0E8] mb-2">Bienvenue sur votre dashboard</h3>
-            <p className="text-sm text-[#A09A8E] leading-relaxed">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-2">Bienvenue sur votre dashboard</h3>
+            <p className="text-sm text-gray-600 dark:text-[#A09A8E] leading-relaxed">
               Gérez facilement vos véhicules, rendez-vous, devis et messages clients depuis cette interface.
               Utilisez le menu latéral pour naviguer entre les différentes sections.
             </p>

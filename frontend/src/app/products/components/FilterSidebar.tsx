@@ -21,6 +21,8 @@ interface FilterSidebarProps {
   onReset: () => void;
   isOpen: boolean;
   onClose: () => void;
+  priceRange?: { minPrice: number; maxPrice: number };
+  currency?: string;
 }
 
 const brandOptions = [
@@ -32,7 +34,7 @@ const fuelOptions = ["Essence", "Diesel", "Hybride", "Hybride rechargeable", "É
 const bodyOptions = ["Berline", "SUV", "Break", "Coupé", "Cabriolet", "Monospace", "Citadine", "Pick-up"];
 const transmissionOptions = ["Manuelle", "Automatique", "Semi-automatique"];
 
-export default function FilterSidebar({ filters, onChange, onReset, isOpen, onClose }: FilterSidebarProps) {
+export default function FilterSidebar({ filters, onChange, onReset, isOpen, onClose, priceRange, currency = 'FCFA' }: FilterSidebarProps) {
   const [expandedSections, setExpandedSections] = useState<string[]>(["brand", "price", "fuel"]);
 
   const toggleSection = (section: string) => {
@@ -78,7 +80,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
       <Icon
         name={expandedSections.includes(id) ? "ChevronUpIcon" : "ChevronDownIcon"}
         size={14}
-        className="text-[#5A5550]"
+        className="text-gray-500 dark:text-[#5A5550]"
       />
     </button>
   );
@@ -86,8 +88,8 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
   const content = (
     <div className="w-72 flex-shrink-0 filter-panel h-fit sticky top-24 rounded-2xl overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-[rgba(245,240,232,0.08)]">
-        <h3 className="font-bold text-[13px] uppercase tracking-[0.2em] text-[#F5F0E8]">Filtres</h3>
+      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+        <h3 className="font-bold text-[13px] uppercase tracking-[0.2em] text-gray-900 dark:text-[#F5F0E8]">Filtres</h3>
         <button
           onClick={onReset}
           className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A020] hover:text-[#F0B840] transition-colors"
@@ -98,7 +100,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
 
       <div className="p-6 space-y-1">
         {/* Brand */}
-        <div className="border-b border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
           {sectionHeader("brand", "Marque")}
           {expandedSections.includes("brand") && (
             <div className="mt-2 space-y-2 max-h-52 overflow-y-auto pr-1">
@@ -110,7 +112,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                     checked={filters.brands.includes(brand)}
                     onChange={() => toggleBrand(brand)}
                   />
-                  <span className="text-[12px] font-medium text-[#A09A8E] group-hover:text-[#F5F0E8] transition-colors">
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
                     {brand}
                   </span>
                 </label>
@@ -120,33 +122,33 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Price */}
-        <div className="border-b border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
           {sectionHeader("price", "Budget")}
           {expandedSections.includes("price") && (
             <div className="mt-3 space-y-4">
-              <div className="flex items-center justify-between text-[12px] text-[#A09A8E]">
-                <span>{filters.priceMin.toLocaleString("fr-FR")} €</span>
-                <span>{filters.priceMax.toLocaleString("fr-FR")} €</span>
+              <div className="flex items-center justify-between text-[12px] text-gray-600 dark:text-[#A09A8E]">
+                <span>{filters.priceMin.toLocaleString("fr-FR")} {currency}</span>
+                <span>{filters.priceMax.toLocaleString("fr-FR")} {currency}</span>
               </div>
               <div>
-                <p className="text-[10px] text-[#5A5550] mb-2">Prix minimum</p>
+                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-2">Prix minimum</p>
                 <input
                   type="range"
-                  min={0}
-                  max={100000}
-                  step={1000}
+                  min={priceRange?.minPrice || 0}
+                  max={priceRange?.maxPrice || 100000000}
+                  step={100000}
                   value={filters.priceMin}
                   onChange={(e) => onChange({ ...filters, priceMin: Number(e.target.value) })}
                   className="w-full"
                 />
               </div>
               <div>
-                <p className="text-[10px] text-[#5A5550] mb-2">Prix maximum</p>
+                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-2">Prix maximum</p>
                 <input
                   type="range"
-                  min={0}
-                  max={200000}
-                  step={1000}
+                  min={priceRange?.minPrice || 0}
+                  max={priceRange?.maxPrice || 100000000}
+                  step={100000}
                   value={filters.priceMax}
                   onChange={(e) => onChange({ ...filters, priceMax: Number(e.target.value) })}
                   className="w-full"
@@ -157,12 +159,12 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Year */}
-        <div className="border-b border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
           {sectionHeader("year", "Année")}
           {expandedSections.includes("year") && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[10px] text-[#5A5550] mb-1">De</p>
+                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-1">De</p>
                 <select
                   className="search-input rounded-lg px-3 py-2 text-sm w-full"
                   value={filters.yearMin}
@@ -174,7 +176,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                 </select>
               </div>
               <div>
-                <p className="text-[10px] text-[#5A5550] mb-1">À</p>
+                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-1">À</p>
                 <select
                   className="search-input rounded-lg px-3 py-2 text-sm w-full"
                   value={filters.yearMax}
@@ -190,7 +192,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Fuel */}
-        <div className="border-b border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
           {sectionHeader("fuel", "Carburant")}
           {expandedSections.includes("fuel") && (
             <div className="mt-2 space-y-2">
@@ -202,7 +204,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                     checked={filters.fuels.includes(fuel)}
                     onChange={() => toggleFuel(fuel)}
                   />
-                  <span className="text-[12px] font-medium text-[#A09A8E] group-hover:text-[#F5F0E8] transition-colors">
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
                     {fuel}
                   </span>
                 </label>
@@ -212,7 +214,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Body */}
-        <div className="border-b border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
           {sectionHeader("body", "Carrosserie")}
           {expandedSections.includes("body") && (
             <div className="mt-2 flex flex-wrap gap-2">
@@ -223,7 +225,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                   className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] border rounded transition-all ${
                     filters.bodyStyles.includes(body)
                       ? "bg-[#E8A020] border-[#E8A020] text-[#0D0D0D]"
-                      : "border-[rgba(245,240,232,0.12)] text-[#A09A8E] hover:border-[#E8A020]"
+                      : "border-[rgba(245,240,232,0.12)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020]"
                   }`}
                 >
                   {body}
@@ -246,7 +248,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                     checked={filters.transmissions.includes(t)}
                     onChange={() => toggleTransmission(t)}
                   />
-                  <span className="text-[12px] font-medium text-[#A09A8E] group-hover:text-[#F5F0E8] transition-colors">
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
                     {t}
                   </span>
                 </label>
@@ -270,10 +272,10 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
-          <div className="relative z-10 w-80 h-full overflow-y-auto bg-[#141414] border-r border-[rgba(245,240,232,0.08)]">
-            <div className="flex items-center justify-between p-6 border-b border-[rgba(245,240,232,0.08)]">
+          <div className="relative z-10 w-80 h-full overflow-y-auto bg-gray-50 dark:bg-[#141414] border-r border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
               <h3 className="font-bold text-[13px] uppercase tracking-[0.2em]">Filtres</h3>
-              <button onClick={onClose} className="text-[#A09A8E] hover:text-[#F5F0E8]">
+              <button onClick={onClose} className="text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]">
                 <Icon name="XMarkIcon" size={20} />
               </button>
             </div>

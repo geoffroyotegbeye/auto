@@ -1,0 +1,86 @@
+# VehicleMarket - Règles pour Cursor AI
+
+## Structure du projet
+
+- Backend: Node.js + Express + MySQL (Port 5001)
+- Frontend: Next.js 15 + React 19 + TypeScript (Port 3000)
+- Base de données: MySQL (auto, port 3306)
+- Devise: FCFA (Franc CFA)
+
+## Base de données - RÈGLES STRICTES
+
+### Fichiers à utiliser UNIQUEMENT
+
+- `backend/src/database/migrate-all.js` - Migration complète
+- `backend/src/database/seed-all.js` - Seed complet
+- `backend/src/database/check-tables.js` - Vérification
+
+### Commandes npm
+
+```bash
+npm run db:migrate  # Créer toutes les tables
+npm run db:seed     # Insérer toutes les données
+npm run db:reset    # Migration + Seed
+npm run db:check    # Vérifier les tables
+```
+
+### NE JAMAIS créer ou utiliser
+
+- ❌ migrate.js, seed.js, schema.sql
+- ❌ Fichiers de migration/seed séparés
+- ❌ Tout autre fichier de migration
+
+## Tables de la base de données (11)
+
+1. brands - Marques (16 par défaut)
+2. hero_settings - Hero avec 12 champs
+3. users - Admin
+4. vehicles - Véhicules
+5. appointments - Rendez-vous
+6. quotes - Devis
+7. contacts - Messages
+8. reviews - Avis
+9. services - Services SAV
+10. stats - Statistiques
+11. site_config - Config FCFA
+
+## Hero Settings - Structure complète
+
+```javascript
+{
+  title_line1, title_line2, title_line3,
+  subtitle, badge_text, badge_subtext,
+  main_image, card_title, card_subtitle, card_price,
+  floating_card_title, floating_card_text
+}
+```
+
+## API Frontend - Exports nommés
+
+```typescript
+import { vehiclesAPI, brandsAPI, heroAPI, configAPI } from '@/services/api';
+```
+
+PAS de default export !
+
+## Localisation Bénin
+
+- Devise: FCFA (après le montant)
+- Villes: Cotonou, Porto-Novo, Parakou
+- Format: "18 500 000 FCFA"
+
+## Admin
+
+- Email: admin@vehiclemarket.com
+- Password: Admin123!
+
+## Menus Admin
+
+Dashboard, Véhicules, Marques, Hero, Rendez-vous, Devis, Messages, Avis, Services SAV, Configuration
+
+## Conventions
+
+- Backend: ES Modules, async/await
+- Frontend: TypeScript, "use client", Tailwind CSS
+- Images: backend/uploads/ avec CORS
+- Ports: Backend 5001, Frontend 3000
