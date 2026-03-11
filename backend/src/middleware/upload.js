@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 // Créer les dossiers uploads s'ils n'existent pas
-const uploadDirs = ['uploads/vehicles', 'uploads/brands', 'uploads/hero'];
+const uploadDirs = ['uploads/vehicles', 'uploads/brands', 'uploads/hero', 'uploads/config'];
 uploadDirs.forEach(dir => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -43,6 +43,17 @@ const brandStorage = multer.diskStorage({
   }
 });
 
+// Configuration du stockage pour config (logo)
+const configStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/config');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'logo-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
 // Filtrer les types de fichiers
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|webp|avif/;
@@ -76,6 +87,15 @@ export const uploadHero = multer({
 
 export const uploadBrand = multer({
   storage: brandStorage,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // 2MB
+    files: 1
+  },
+  fileFilter: fileFilter
+});
+
+export const uploadConfig = multer({
+  storage: configStorage,
   limits: {
     fileSize: 2 * 1024 * 1024, // 2MB
     files: 1

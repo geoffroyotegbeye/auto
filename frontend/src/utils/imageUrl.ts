@@ -16,6 +16,19 @@ export function getImageUrl(imagePath: string | null | undefined, bustCache: boo
     return bustCache ? `${url}?t=${Date.now()}` : url;
   }
   
-  // Sinon, retourner l'image par défaut
-  return '/assets/image/no_image.png';
+  // Si c'est juste un nom de fichier, construire le chemin complet
+  // Détecter le type de fichier par son préfixe
+  let folder = 'uploads';
+  if (imagePath.startsWith('vehicle-')) {
+    folder = 'uploads/vehicles';
+  } else if (imagePath.startsWith('brand-')) {
+    folder = 'uploads/brands';
+  } else if (imagePath.startsWith('hero-')) {
+    folder = 'uploads/hero';
+  } else if (imagePath.startsWith('logo-')) {
+    folder = 'uploads/config';
+  }
+  
+  const url = `${API_BASE_URL}/${folder}/${imagePath}`;
+  return bustCache ? `${url}?t=${Date.now()}` : url;
 }

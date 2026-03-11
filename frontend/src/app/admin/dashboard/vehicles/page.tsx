@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { vehiclesAPI } from '@/services/api';
+import { vehiclesAPI, brandsAPI } from '@/services/api';
 import Icon from '@/components/ui/AppIcon';
 import AppImage from '@/components/ui/AppImage';
 import Toast from '@/components/Toast';
@@ -42,6 +42,7 @@ interface ToastState {
 
 export default function VehiclesPage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
@@ -127,6 +128,7 @@ export default function VehiclesPage() {
 
   useEffect(() => {
     loadVehicles();
+    loadBrands();
   }, [filter]);
 
   useEffect(() => {
@@ -143,6 +145,15 @@ export default function VehiclesPage() {
       showToast('Erreur lors du chargement des véhicules', 'error');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadBrands = async () => {
+    try {
+      const data = await brandsAPI.getAll({ active: 'true' });
+      setBrands(data);
+    } catch (error) {
+      console.error('Erreur lors du chargement des marques:', error);
     }
   };
 
@@ -428,12 +439,12 @@ export default function VehiclesPage() {
                   </td>
                   <td className="px-6 py-4">
                     <p className="font-bold text-[#E8A020]">
-                      {vehicle.price ? vehicle.price.toLocaleString('fr-FR') : '0'} FCFA
+                      {vehicle.price ? Math.floor(vehicle.price).toLocaleString('fr-FR') : '0'} FCFA
                     </p>
                   </td>
                   <td className="px-6 py-4">
                     <p className="text-sm text-gray-900 dark:text-[#F5F0E8]">{vehicle.year || 'N/A'}</p>
-                    <p className="text-xs text-gray-600 dark:text-[#A09A8E]">{vehicle.km ? vehicle.km.toLocaleString('fr-FR') : '0'} km</p>
+                    <p className="text-xs text-gray-600 dark:text-[#A09A8E]">{vehicle.km ? Math.floor(vehicle.km).toLocaleString('fr-FR') : '0'} km</p>
                   </td>
                   <td className="px-6 py-4">
                     <span
@@ -533,13 +544,19 @@ export default function VehiclesPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-900 dark:text-[#F5F0E8] mb-2">Marque *</label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.brand}
                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                     required
                     className="w-full px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] focus:outline-none focus:border-[#E8A020]"
-                  />
+                  >
+                    <option value="">Sélectionner une marque</option>
+                    {brands.map((brand) => (
+                      <option key={brand.id} value={brand.name}>
+                        {brand.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>

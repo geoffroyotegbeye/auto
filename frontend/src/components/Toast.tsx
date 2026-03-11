@@ -20,10 +20,10 @@ export default function Toast({ message, type, onClose, duration = 3000 }: Toast
   }, [duration, onClose]);
 
   const styles = {
-    success: 'bg-green-500/10 border-green-500/20 text-green-400',
-    error: 'bg-red-500/10 border-red-500/20 text-red-400',
-    info: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
-    warning: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
+    success: 'bg-green-500/10 dark:bg-green-500/10 border-green-500/20 dark:border-green-500/20 text-green-600 dark:text-green-400',
+    error: 'bg-red-500/10 dark:bg-red-500/10 border-red-500/20 dark:border-red-500/20 text-red-600 dark:text-red-400',
+    info: 'bg-blue-500/10 dark:bg-blue-500/10 border-blue-500/20 dark:border-blue-500/20 text-blue-600 dark:text-blue-400',
+    warning: 'bg-orange-500/10 dark:bg-orange-500/10 border-orange-500/20 dark:border-orange-500/20 text-orange-600 dark:text-orange-400',
   };
 
   const icons = {

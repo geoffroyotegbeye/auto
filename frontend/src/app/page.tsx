@@ -5,6 +5,7 @@ import BrandsMarquee from "./components/BrandsMarquee";
 import StatsSection from "./components/StatsSection";
 import RecentListings from "./components/RecentListings";
 import BrandsGrid from "./components/BrandsGrid";
+import ReviewsSection from "./components/ReviewsSection";
 
 export const metadata: Metadata = {
   title: "VehicleMarket — Achat et vente de véhicules toutes marques",
@@ -15,13 +16,14 @@ export const metadata: Metadata = {
 
 export default function HomepagePage() {
   return (
-    <main className="bg-[#0D0D0D] min-h-screen">
+    <main className="bg-white dark:bg-vm-dark min-h-screen">
       <HeroSection />
       <BrandsMarquee />
       <RecentListings />
       <StatsSection />
       <BrandsGrid />
       <FeaturedVehicles />
+      <ReviewsSection />
     </main>
   );
 }

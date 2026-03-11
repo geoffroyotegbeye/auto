@@ -1,29 +1,61 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { brandsAPI } from "@/services/api";
+import { getImageUrl } from "@/utils/imageUrl";
+import AppImage from "@/components/ui/AppImage";
 
-
-const brands = [
-  "BMW", "Mercedes-Benz", "Audi", "Volkswagen", "Peugeot",
-  "Renault", "Citroën", "Toyota", "Ford", "Opel",
-  "Hyundai", "Kia", "Nissan", "Volvo", "Tesla",
-  "Porsche", "Alfa Romeo", "Fiat", "SEAT", "Skoda",
-];
+interface Brand {
+  id: number;
+  name: string;
+  logo: string;
+  is_active: boolean;
+}
 
 export default function BrandsMarquee() {
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const data = await brandsAPI.getAll({ active: 'true' });
+        setBrands(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des marques:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
+  if (loading || brands.length === 0) {
+    return null;
+  }
+
+  // Doubler les marques pour un défilement infini fluide
   const doubled = [...brands, ...brands];
 
   return (
-    <section className="py-12 overflow-hidden border-y border-gray-200 dark:border-[rgba(245,240,232,0.06)]">
+    <section className="py-12 overflow-hidden border-y border-gray-200 dark:border-gray-800 bg-white dark:bg-vm-dark">
       <div className="marquee-track">
         <div className="marquee-inner">
           {doubled?.map((brand, i) => (
-            <span
-              key={`${brand}-${i}`}
-              className="inline-flex items-center gap-4 px-10 text-[11px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-[#5A5550] hover:text-[#E8A020] transition-colors cursor-default"
+            <div
+              key={`${brand.id}-${i}`}
+              className="inline-flex items-center justify-center px-8 hover:scale-110 transition-transform cursor-default"
             >
-              <span className="w-1 h-1 rounded-full bg-[#E8A020] flex-shrink-0" />
-              {brand}
-            </span>
+              <div className="relative w-24 h-12 grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100">
+                <AppImage
+                  src={getImageUrl(brand.logo)}
+                  alt={brand.name}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -67,10 +67,10 @@ function StatCard({ stat, triggered }: { stat: Stat; triggered: boolean }) {
   const display = stat.value >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toString();
 
   return (
-    <div className="p-8 border border-gray-200 dark:border-[rgba(245,240,232,0.08)] bg-gray-50 dark:bg-[#141414] rounded-2xl hover:border-[#E8A020] transition-colors group">
+    <div className="p-8 border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-vm-dark-card rounded-2xl hover:border-vm-red transition-all group shadow-sm hover:shadow-lg">
       <div className="flex items-start justify-between mb-6">
-        <div className="w-12 h-12 rounded-xl bg-[rgba(232,160,32,0.1)] flex items-center justify-center group-hover:bg-[rgba(232,160,32,0.2)] transition-colors">
-          <Icon name={stat.icon as Parameters<typeof Icon>[0]["name"]} size={22} className="text-[#E8A020]" />
+        <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-950/20 flex items-center justify-center group-hover:bg-red-100 dark:group-hover:bg-red-950/30 transition-colors">
+          <Icon name={stat.icon as Parameters<typeof Icon>[0]["name"]} size={22} className="text-vm-red" />
         </div>
         <span className="badge badge-outline">{stat.label}</span>
       </div>
@@ -78,7 +78,7 @@ function StatCard({ stat, triggered }: { stat: Stat; triggered: boolean }) {
         {stat.value >= 1000 ? display : count}
         {stat.suffix}
       </div>
-      <p className="text-[13px] text-gray-600 dark:text-[#A09A8E] leading-relaxed mt-3">{stat.description}</p>
+      <p className="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-3">{stat.description}</p>
     </div>
   );
 }
@@ -102,20 +102,20 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section className="py-32 bg-white dark:bg-[#0D0D0D]" ref={sectionRef}>
+    <section className="py-32 bg-white dark:bg-vm-dark" ref={sectionRef}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           {/* Left copy */}
           <div className="lg:col-span-4 space-y-6">
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-vm-red">
               Pourquoi nous
             </p>
-            <h2 className="section-title">
+            <h2 className="section-title text-gray-900 dark:text-white">
               Votre partenaire
               <br />
-              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">automobile de confiance.</span>
+              <span className="italic font-light text-gray-600 dark:text-gray-400">automobile de confiance.</span>
             </h2>
-            <p className="text-gray-600 dark:text-[#A09A8E] leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               MIG Motors SA, distributeur exclusif au Bénin des plus grandes marques automobiles. Excellence, proximité et expertise depuis 2013.
             </p>
             <div className="flex flex-col gap-3 pt-4">
@@ -124,8 +124,8 @@ export default function StatsSection() {
                 "Financement flexible adapté à votre budget",
                 "Service après-vente avec pièces d'origine",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-[13px] text-gray-600 dark:text-[#A09A8E]">
-                  <Icon name="CheckCircleIcon" size={16} variant="solid" className="text-[#E8A020] flex-shrink-0" />
+                <div key={item} className="flex items-center gap-3 text-[13px] text-gray-600 dark:text-gray-400">
+                  <Icon name="CheckCircleIcon" size={16} variant="solid" className="text-vm-red flex-shrink-0" />
                   {item}
                 </div>
               ))}

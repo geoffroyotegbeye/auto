@@ -22,6 +22,12 @@ const transporter = nodemailer.createTransport({
  */
 export const sendEmail = async (to, subject, html) => {
   try {
+    // Désactivé temporairement - configuration email à corriger
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📧 Email simulé (dev mode):', { to, subject });
+      return { messageId: 'dev-mode-' + Date.now() };
+    }
+
     const mailOptions = {
       from: `VehicleMarket <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to,

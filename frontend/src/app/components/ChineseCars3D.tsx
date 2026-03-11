@@ -216,7 +216,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                   border: "1px solid rgba(255,255,255,0.1)"
                 }}>
                 
-                <Icon name="ArrowPathIcon" size={12} className="text-gray-600 dark:text-[#A09A8E]" />
+                <Icon name="ArrowPathIcon" size={12} className="text-gray-600 dark:text-gray-400" />
               </div>
             </div>
 
@@ -228,7 +228,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105" />
               
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-vm-dark via-transparent to-transparent" />
             </div>
 
             {/* Content */}
@@ -241,35 +241,35 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                     
                     {car.brand} · {car.origin}
                   </p>
-                  <h3 className="font-display text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">{car.name}</h3>
-                  <p className="text-[11px] text-gray-500 dark:text-[#5A5550] mt-0.5 italic">{car.tagline}</p>
+                  <h3 className="font-display text-xl font-bold text-gray-900 dark:text-white">{car.name}</h3>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-500 mt-0.5 italic">{car.tagline}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-display text-xl font-bold" style={{ color: car.color }}>
                     {car.price}
                   </p>
-                  <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mt-0.5">{car.year}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5">{car.year}</p>
                 </div>
               </div>
 
               {/* Stats row */}
               <div
                 className="flex items-center gap-3 pt-3 mt-3"
-                style={{ borderTop: "1px solid rgba(245,240,232,0.06)" }}>
+                style={{ borderTop: "1px solid rgba(84,86,92,0.15)" }}>
                 
                 {car.range &&
                 <div className="flex items-center gap-1.5">
-                    <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                    <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.range}</span>
+                    <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                    <span className="text-[10px] text-gray-600 dark:text-gray-400">{car.range}</span>
                   </div>
                 }
                 <div className="flex items-center gap-1.5">
-                  <Icon name="CpuChipIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                  <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.power}</span>
+                  <Icon name="CpuChipIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                  <span className="text-[10px] text-gray-600 dark:text-gray-400">{car.power}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Icon name="FireIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                  <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{car.fuel}</span>
+                  <Icon name="FireIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                  <span className="text-[10px] text-gray-600 dark:text-gray-400">{car.fuel}</span>
                 </div>
               </div>
             </div>
@@ -280,7 +280,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
             <div
               className="absolute inset-0 rounded-2xl"
               style={{
-                background: `linear-gradient(135deg, ${car.color}15 0%, #1A1A1A 60%)`
+                background: `linear-gradient(135deg, ${car.color}15 0%, #1a1a1f 60%)`
               }} />
             
             <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
@@ -300,10 +300,10 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 </span>
               </div>
 
-              <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-[#F5F0E8] mb-1">
+              <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {car.brand} {car.name}
               </h3>
-              <p className="text-[11px] text-gray-600 dark:text-[#A09A8E] italic mb-6">{car.tagline}</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400 italic mb-6">{car.tagline}</p>
 
               {/* Specs grid */}
               <div className="grid grid-cols-2 gap-3 w-full mb-6">
@@ -316,12 +316,12 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 <div
                   key={spec.label}
                   className="rounded-xl p-3 text-left"
-                  style={{ background: "rgba(245,240,232,0.04)", border: "1px solid rgba(245,240,232,0.06)" }}>
+                  style={{ background: "rgba(84,86,92,0.1)", border: "1px solid rgba(84,86,92,0.2)" }}>
                   
-                    <p className="text-[9px] uppercase tracking-[0.25em] text-gray-500 dark:text-[#5A5550] mb-1">
+                    <p className="text-[9px] uppercase tracking-[0.25em] text-gray-500 dark:text-gray-500 mb-1">
                       {spec.label}
                     </p>
-                    <p className="text-[13px] font-bold text-gray-900 dark:text-[#F5F0E8]">{spec.value}</p>
+                    <p className="text-[13px] font-bold text-gray-900 dark:text-white">{spec.value}</p>
                   </div>
                 )}
               </div>
@@ -340,7 +340,7 @@ function Car3DCard({ car, index }: {car: ChineseCar;index: number;}) {
                 <Icon name="ArrowRightIcon" size={11} />
               </Link>
 
-              <p className="text-[9px] text-gray-500 dark:text-[#5A5550] mt-4">Cliquez pour retourner</p>
+              <p className="text-[9px] text-gray-500 dark:text-gray-500 mt-4">Cliquez pour retourner</p>
             </div>
           </div>
         </div>
@@ -371,16 +371,16 @@ export default function ChineseCars3D() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-          "linear-gradient(to bottom, transparent 0%, rgba(232,160,32,0.03) 40%, transparent 100%)",
+          "linear-gradient(to bottom, transparent 0%, rgba(248,34,0,0.03) 40%, transparent 100%)",
           backgroundImage:
-          "linear-gradient(to right, rgba(245,240,232,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,240,232,0.02) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(84,86,92,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(84,86,92,0.05) 1px, transparent 1px)",
           backgroundSize: "60px 60px"
         }} />
       
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(248,34,0,0.06) 0%, transparent 70%)",
           filter: "blur(40px)"
         }} />
       
@@ -395,15 +395,15 @@ export default function ChineseCars3D() {
               transition: "opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)"
             }}>
             
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-vm-red mb-4">
               Innovation Asiatique
             </p>
             <h2 className="section-title">
               Voitures
               <br />
-              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">chinoises.</span>
+              <span className="italic font-light text-gray-600 dark:text-gray-400">chinoises.</span>
             </h2>
-            <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+            <p className="text-gray-500 dark:text-gray-500 text-sm mt-4 max-w-sm leading-relaxed">
               Découvrez les marques électriques chinoises qui révolutionnent l'automobile mondiale.
               Cliquez sur une carte pour explorer les specs.
             </p>
@@ -423,9 +423,9 @@ export default function ChineseCars3D() {
                 key={brand}
                 className="text-[9px] font-bold uppercase tracking-[0.25em] px-3 py-1.5 rounded-full"
                 style={{
-                  background: "rgba(232,160,32,0.08)",
-                  border: "1px solid rgba(232,160,32,0.2)",
-                  color: "#A09A8E"
+                  background: "rgba(248,34,0,0.08)",
+                  border: "1px solid rgba(248,34,0,0.2)",
+                  color: "#54565c"
                 }}>
                 
                   {brand}
@@ -460,12 +460,12 @@ export default function ChineseCars3D() {
           <div
             className="flex items-center gap-3 px-6 py-3 rounded-full"
             style={{
-              background: "rgba(245,240,232,0.03)",
-              border: "1px solid rgba(245,240,232,0.08)"
+              background: "rgba(84,86,92,0.08)",
+              border: "1px solid rgba(84,86,92,0.15)"
             }}>
             
-            <div className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-[#5A5550]">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-gray-500">
               Survol pour l'effet 3D · Clic pour les specs
             </span>
           </div>

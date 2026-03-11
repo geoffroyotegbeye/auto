@@ -230,6 +230,7 @@ async function runMigrations() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS site_config (
         id INT PRIMARY KEY DEFAULT 1,
+        site_logo VARCHAR(500),
         currency_symbol VARCHAR(10) DEFAULT 'FCFA',
         currency_name VARCHAR(50) DEFAULT 'Franc CFA',
         currency_position ENUM('before', 'after') DEFAULT 'after',

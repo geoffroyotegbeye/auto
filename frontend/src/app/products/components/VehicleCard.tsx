@@ -42,9 +42,10 @@ interface Props {
 export default function VehicleCard({ vehicle: v, view }: Props) {
   if (view === "list") {
     return (
-      <div className="vehicle-card rounded-2xl flex overflow-hidden group">
-        <div className="card-image relative w-72 h-48 flex-shrink-0 overflow-hidden">
-          <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover" />
+      <Link href={`/products/${v.id}`} className="block">
+        <div className="bg-white dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 rounded-2xl flex overflow-hidden group hover:border-vm-red transition-all shadow-sm hover:shadow-lg">
+        <div className="relative w-72 h-48 flex-shrink-0 overflow-hidden">
+          <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           {v.badge && (
             <div className="absolute top-3 left-3 z-10">
               <span className={`badge ${v.badgeType}`}>{v.badge}</span>
@@ -55,64 +56,56 @@ export default function VehicleCard({ vehicle: v, view }: Props) {
           <div>
             <div className="flex items-start justify-between mb-2">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">{v.brand}</p>
-                <h3 className="font-display text-xl font-bold mt-0.5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">{v.brand}</p>
+                <h3 className="font-display text-xl font-bold mt-0.5 text-gray-900 dark:text-white">
                   {v.model}{" "}
-                  <span className="text-gray-600 dark:text-[#A09A8E] font-light italic text-base">{v.version}</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-light italic text-base">{v.version}</span>
                 </h3>
               </div>
-              <span className="font-display text-2xl font-bold text-[#E8A020]">
+              <span className="font-display text-2xl font-bold text-vm-red">
                 {v.price.toLocaleString("fr-FR")} FCFA
               </span>
             </div>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] text-gray-600 dark:text-[#A09A8E] mt-3">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] text-gray-600 dark:text-gray-400 mt-3">
               <span className="flex items-center gap-1.5"><Icon name="CalendarIcon" size={13} />{v.year}</span>
               <span className="flex items-center gap-1.5"><Icon name="ChartBarIcon" size={13} />{v.km.toLocaleString("fr-FR")} km</span>
               <span className={`flex items-center gap-1.5 font-semibold ${fuelColors[v.fuel] || ""}`}>
                 <Icon name="BoltIcon" size={13} />{v.fuel}
               </span>
               <span className="flex items-center gap-1.5"><Icon name="CogIcon" size={13} />{v.transmission}</span>
-              <span className="flex items-center gap-1.5"><Icon name="BoltIcon" size={13} variant="solid" className="text-[#E8A020]" />{v.power}</span>
+              <span className="flex items-center gap-1.5"><Icon name="BoltIcon" size={13} variant="solid" className="text-vm-red" />{v.power}</span>
               <span className="flex items-center gap-1.5"><Icon name="MapPinIcon" size={13} />{v.location}</span>
             </div>
           </div>
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.06)] mt-4">
-            <span className="text-[10px] text-gray-500 dark:text-[#5A5550] font-medium">
+          <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800 mt-4">
+            <span className="text-[10px] text-gray-500 dark:text-gray-500 font-medium">
               {v.daysAgo === 0 ? "Ajouté aujourd'hui" : `Il y a ${v.daysAgo} jours`}
             </span>
-            <div className="flex items-center gap-3">
-              <button className="btn-outline px-4 py-2 text-[10px]">
-                <Icon name="HeartIcon" size={14} />
-                Sauvegarder
-              </button>
-              <Link href="/products" className="btn-primary px-4 py-2 text-[10px]">
-                Voir l'annonce
-                <Icon name="ArrowRightIcon" size={14} />
-              </Link>
-            </div>
           </div>
         </div>
       </div>
+      </Link>
     );
   }
 
   return (
-    <div className="vehicle-card rounded-2xl">
-      <div className="card-image relative h-52 overflow-hidden">
-        <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.5)] to-transparent" />
+    <Link href={`/products/${v.id}`} className="block">
+      <div className="bg-white dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 rounded-2xl hover:border-vm-red transition-all shadow-sm hover:shadow-lg group">
+      <div className="relative h-52 overflow-hidden rounded-t-2xl">
+        <img src={getImageUrl(v.image)} alt={v.alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-vm-dark/50 to-transparent" />
         {v.badge && (
           <div className="absolute top-4 left-4 z-10">
             <span className={`badge ${v.badgeType}`}>{v.badge}</span>
           </div>
         )}
         <button
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[rgba(13,13,13,0.6)] backdrop-blur-sm flex items-center justify-center text-gray-600 dark:text-[#A09A8E] hover:text-red-400 transition-colors"
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-vm-dark/60 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-red-400 transition-colors"
           aria-label="Sauvegarder"
         >
           <Icon name="HeartIcon" size={14} />
         </button>
-        <div className="absolute bottom-3 right-3 text-[10px] font-bold text-gray-600 dark:text-[#A09A8E]">
+        <div className="absolute bottom-3 right-3 text-[10px] font-bold text-gray-400">
           {v.daysAgo === 0 ? "Aujourd'hui" : `Il y a ${v.daysAgo}j`}
         </div>
       </div>
@@ -120,16 +113,16 @@ export default function VehicleCard({ vehicle: v, view }: Props) {
       <div className="p-5">
         <div className="flex items-start justify-between mb-2">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-[#5A5550]">{v.brand}</p>
-            <h3 className="font-display text-lg font-bold mt-0.5">{v.model}</h3>
-            <p className="text-[12px] text-gray-600 dark:text-[#A09A8E] italic">{v.version}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">{v.brand}</p>
+            <h3 className="font-display text-lg font-bold mt-0.5 text-gray-900 dark:text-white">{v.model}</h3>
+            <p className="text-[12px] text-gray-600 dark:text-gray-400 italic">{v.version}</p>
           </div>
-          <span className="font-display text-lg font-bold text-[#E8A020] flex-shrink-0 ml-2">
+          <span className="font-display text-lg font-bold text-vm-red flex-shrink-0 ml-2">
             {v.price.toLocaleString("fr-FR")} FCFA
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-600 dark:text-[#A09A8E] my-3">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-600 dark:text-gray-400 my-3">
           <span className="flex items-center gap-1"><Icon name="CalendarIcon" size={11} />{v.year}</span>
           <span>·</span>
           <span className="flex items-center gap-1"><Icon name="ChartBarIcon" size={11} />{v.km.toLocaleString("fr-FR")} km</span>
@@ -139,19 +132,12 @@ export default function VehicleCard({ vehicle: v, view }: Props) {
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-[#5A5550] mb-4">
+        <div className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-500">
           <Icon name="MapPinIcon" size={11} />
           {v.location}
         </div>
-
-        <Link
-          href="/products"
-          className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.06)] text-[11px] font-bold uppercase tracking-[0.15em] text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020] transition-colors group"
-        >
-          Voir l'annonce
-          <Icon name="ArrowRightIcon" size={13} className="group-hover:translate-x-1 transition-transform" />
-        </Link>
       </div>
     </div>
+    </Link>
   );
 }

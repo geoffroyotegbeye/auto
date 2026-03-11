@@ -37,20 +37,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700;1,9..144,900&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-primary: #0D0D0D;
-  --bg-secondary: #141414;
-  --bg-card: #1A1A1A;
-  --bg-elevated: #222222;
-  --text-primary: #F5F0E8;
-  --text-secondary: #A09A8E;
-  --text-muted: #5A5550;
-  --accent: #E8A020;
-  --accent-light: #F0B840;
-  --accent-dim: rgba(232, 160, 32, 0.15);
-  --border: rgba(245, 240, 232, 0.08);
-  --border-hover: rgba(245, 240, 232, 0.2);
+  /* Dark mode (par défaut) - Couleurs douces */
+  --bg-primary: #1a1a1f;
+  --bg-secondary: #25252b;
+  --bg-card: #2f2f37;
+  --bg-elevated: #2f2f37;
+  --text-primary: #ffffff;
+  --text-secondary: #b4b6bb;
+  --text-muted: #8a8c92;
+  --accent: #f82200;
+  --accent-light: #ff4d2e;
+  --accent-dark: #d11d00;
+  --accent-dim: rgba(248, 34, 0, 0.15);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
+}
+
+/* Light mode - Textes qui ressortent bien */
+.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --text-primary: #1a1a1f;
+  --text-secondary: #54565c;
+  --text-muted: #6c757d;
+  --accent: #f82200;
+  --accent-light: #ff4d2e;
+  --accent-dark: #d11d00;
+  --accent-dim: rgba(248, 34, 0, 0.08);
+  --border: #e9ecef;
+  --border-hover: #dee2e6;
 }
 
 * {
@@ -141,6 +160,7 @@ body {
   border-radius: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
@@ -160,13 +180,14 @@ body {
 }
 
 .chinese-car-wrapper:hover .chinese-car-face {
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,160,32,0.15);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 12px 32px rgba(248, 34, 0, 0.12);
 }
 
 /* ─── CARDS ─── */
 .vehicle-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
   transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -174,9 +195,9 @@ body {
 }
 
 .vehicle-card:hover {
-  border-color: var(--accent);
+  border-color: #f82200;
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(232, 160, 32, 0.12), 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 60px rgba(248, 34, 0, 0.12), 0 8px 24px rgba(0,0,0,0.08);
 }
 
 .vehicle-card .card-image {
@@ -283,7 +304,7 @@ body {
 
 .filter-chip {
   background: var(--accent-dim);
-  border: 1px solid rgba(232, 160, 32, 0.3);
+  border: 1px solid rgba(248, 34, 0, 0.3);
   color: var(--accent);
   font-size: 11px;
   font-weight: 600;
@@ -297,14 +318,15 @@ body {
 }
 
 .filter-chip:hover {
-  background: rgba(232, 160, 32, 0.25);
+  background: rgba(248, 34, 0, 0.25);
 }
 
 /* ─── BRAND CARD ─── */
 .brand-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  transition: border-color 0.3s ease, background 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -317,6 +339,8 @@ body {
 .brand-card:hover {
   border-color: var(--accent);
   background: var(--accent-dim);
+  box-shadow: 0 8px 24px rgba(248, 34, 0, 0.1), 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
 }
 
 /* ─── STAT CARD ─── */
@@ -373,12 +397,17 @@ body {
 }
 
 .badge-new {
-  background: #16A34A;
+  background: #10b981;
   color: white;
 }
 
 .badge-promo {
-  background: #DC2626;
+  background: #f82200;
+  color: white;
+}
+
+.badge-accent {
+  background: #f82200;
   color: white;
 }
 
@@ -392,20 +421,68 @@ body {
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  height: 2px;
-  background: var(--border-hover);
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
   outline: none;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dark input[type="range"] {
+  background: #4b5563;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #ffffff;
+  border: 4px solid #f82200;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(248, 34, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(248, 34, 0, 0.4), 0 0 0 2px rgba(248, 34, 0, 0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.dark input[type="range"]::-moz-range-track {
+  background: #4b5563;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 4px solid #f82200;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(248, 34, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(248, 34, 0, 0.4), 0 0 0 2px rgba(248, 34, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb:active {
+  transform: scale(1.1);
 }
 
 /* ─── SELECT ─── */
@@ -461,14 +538,14 @@ select:focus {
 
 /* ─── GLOW ─── */
 .accent-glow {
-  text-shadow: 0 0 40px rgba(232, 160, 32, 0.4);
+  text-shadow: 0 0 40px rgba(248, 34, 0, 0.4);
 }
 
 /* ─── GRID LINES BACKGROUND ─── */
 .grid-bg {
   background-image: 
-    linear-gradient(to right, rgba(245, 240, 232, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(245, 240, 232, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(84, 86, 92, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(84, 86, 92, 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 

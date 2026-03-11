@@ -45,22 +45,22 @@ export default function ConfirmModal({
   const style = styles[type];
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4">
-      <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-2xl max-w-md w-full p-6 animate-scale-in">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+      <div className="bg-white dark:bg-vm-dark-card border border-gray-200 dark:border-white/10 rounded-2xl max-w-md w-full p-6 animate-scale-in shadow-2xl">
         {/* Icon */}
         <div className={`w-12 h-12 rounded-full ${style.iconBg} flex items-center justify-center mb-4`}>
           <Icon name={style.icon as any} size={24} className={style.iconColor} />
         </div>
 
         {/* Content */}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8] mb-2">{title}</h3>
-        <p className="text-gray-600 dark:text-[#A09A8E] mb-6">{message}</p>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">{message}</p>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-50 dark:bg-[#141414] transition-colors"
+            className="flex-1 px-4 py-2 bg-gray-100 dark:bg-vm-dark-lighter border border-gray-200 dark:border-white/10 rounded-lg text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-vm-dark transition-colors font-medium"
           >
             {cancelText}
           </button>

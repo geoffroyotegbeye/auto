@@ -74,9 +74,9 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
         transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.1}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.1}s`
       }}
     >
-      <Link href="/products">
+      <Link href={`/products/${vehicle.id}`}>
         <div
-          className="group relative bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-2xl overflow-hidden hover:border-[#E8A020] transition-all duration-300"
+          className="group relative bg-white dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden hover:border-vm-red transition-all duration-300 shadow-md hover:shadow-xl"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{
@@ -88,7 +88,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
             style={{
-              background: "radial-gradient(ellipse at 50% 0%, rgba(232,160,32,0.15) 0%, transparent 70%)"
+              background: "radial-gradient(ellipse at 50% 0%, rgba(248,34,0,0.15) 0%, transparent 70%)"
             }}
           />
 
@@ -99,7 +99,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
               alt={`${vehicle.brand} ${vehicle.model}`}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-vm-dark via-transparent to-transparent" />
             
             {/* Badges */}
             <div className="absolute top-4 left-4 flex gap-2">
@@ -107,9 +107,9 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
                 <span
                   className="text-[9px] font-bold uppercase tracking-[0.3em] px-3 py-1.5 rounded-full"
                   style={{
-                    background: "rgba(232,160,32,0.22)",
-                    color: "#E8A020",
-                    border: "1px solid rgba(232,160,32,0.44)",
+                    background: "rgba(248,34,0,0.15)",
+                    color: "#f82200",
+                    border: "1px solid rgba(248,34,0,0.3)",
                     backdropFilter: "blur(8px)"
                   }}
                 >
@@ -120,7 +120,7 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
             
             {/* Days ago */}
             <div className="absolute bottom-4 right-4">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600 dark:text-[#A09A8E]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">
                 {daysAgo === 0 ? "Aujourd'hui" : `Il y a ${daysAgo}j`}
               </span>
             </div>
@@ -130,37 +130,37 @@ function VehicleCard({ vehicle, index }: { vehicle: Vehicle; index: number }) {
           <div className="p-5">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#E8A020] mb-1">
+                <p className="text-[9px] font-bold uppercase tracking-[0.35em] text-vm-red mb-1">
                   {vehicle.brand}
                 </p>
-                <h3 className="font-display text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">
+                <h3 className="font-display text-xl font-bold text-gray-900 dark:text-white">
                   {vehicle.model}
                 </h3>
               </div>
               <div className="text-right">
-                <p className="font-display text-xl font-bold text-[#E8A020]">
-                  {vehicle.price.toLocaleString("fr-FR")} FCFA
+                <p className="font-display text-xl font-bold text-vm-red">
+                  {Math.floor(vehicle.price).toLocaleString("fr-FR")} FCFA
                 </p>
-                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mt-0.5">{vehicle.year}</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5">{vehicle.year}</p>
               </div>
             </div>
 
             {/* Stats row */}
             <div
               className="flex items-center gap-3 pt-3 mt-3"
-              style={{ borderTop: "1px solid rgba(245,240,232,0.06)" }}
+              style={{ borderTop: "1px solid rgba(84,86,92,0.15)" }}
             >
               <div className="flex items-center gap-1.5">
-                <Icon name="ChartBarIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.km.toLocaleString("fr-FR")} km</span>
+                <Icon name="ChartBarIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                <span className="text-[10px] text-gray-600 dark:text-gray-400">{vehicle.km.toLocaleString("fr-FR")} km</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.fuel}</span>
+                <Icon name="BoltIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                <span className="text-[10px] text-gray-600 dark:text-gray-400">{vehicle.fuel}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Icon name="CogIcon" size={11} className="text-gray-500 dark:text-[#5A5550]" />
-                <span className="text-[10px] text-gray-600 dark:text-[#A09A8E]">{vehicle.transmission}</span>
+                <Icon name="CogIcon" size={11} className="text-gray-500 dark:text-gray-500" />
+                <span className="text-[10px] text-gray-600 dark:text-gray-400">{vehicle.transmission}</span>
               </div>
             </div>
           </div>
@@ -216,20 +216,20 @@ export default function RecentListings() {
 
   if (loading) {
     return (
-      <section className="py-32 bg-gray-50 dark:bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+      <section className="py-32 bg-gray-50 dark:bg-vm-dark relative overflow-hidden" ref={sectionRef}>
         {/* Background grid + glow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to bottom, transparent 0%, rgba(232,160,32,0.03) 40%, transparent 100%)",
-            backgroundImage: "linear-gradient(to right, rgba(245,240,232,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,240,232,0.02) 1px, transparent 1px)",
+            background: "linear-gradient(to bottom, transparent 0%, rgba(248,34,0,0.03) 40%, transparent 100%)",
+            backgroundImage: "linear-gradient(to right, rgba(84,86,92,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(84,86,92,0.05) 1px, transparent 1px)",
             backgroundSize: "60px 60px"
           }}
         />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse, rgba(248,34,0,0.06) 0%, transparent 70%)",
             filter: "blur(40px)"
           }}
         />
@@ -238,23 +238,23 @@ export default function RecentListings() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-vm-red mb-4">
                 Dernières annonces
               </p>
-              <h2 className="section-title">
+              <h2 className="section-title text-gray-900 dark:text-white">
                 Ajoutées
                 <br />
-                <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">récemment.</span>
+                <span className="italic font-light text-gray-600 dark:text-gray-400">récemment.</span>
               </h2>
-              <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+              <p className="text-gray-500 dark:text-gray-500 text-sm mt-4 max-w-sm leading-relaxed">
                 Découvrez les dernières annonces ajoutées sur notre plateforme.
                 Survol pour l'effet 3D.
               </p>
             </div>
           </div>
 
-          <div className="text-center text-gray-600 dark:text-[#A09A8E] py-12">
-            <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
+          <div className="text-center text-gray-600 dark:text-gray-400 py-12">
+            <Icon name="ArrowPathIcon" size={48} className="text-vm-red animate-spin mx-auto mb-4" />
             Chargement des annonces...
           </div>
         </div>
@@ -263,20 +263,20 @@ export default function RecentListings() {
   }
 
   return (
-    <section className="py-32 bg-gray-50 dark:bg-[#0A0A0A] relative overflow-hidden" ref={sectionRef}>
+    <section className="py-32 bg-gray-50 dark:bg-vm-dark relative overflow-hidden" ref={sectionRef}>
       {/* Background grid + glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "linear-gradient(to bottom, transparent 0%, rgba(232,160,32,0.03) 40%, transparent 100%)",
-          backgroundImage: "linear-gradient(to right, rgba(245,240,232,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,240,232,0.02) 1px, transparent 1px)",
+          background: "linear-gradient(to bottom, transparent 0%, rgba(248,34,0,0.03) 40%, transparent 100%)",
+          backgroundImage: "linear-gradient(to right, rgba(84,86,92,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(84,86,92,0.05) 1px, transparent 1px)",
           backgroundSize: "60px 60px"
         }}
       />
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(248,34,0,0.06) 0%, transparent 70%)",
           filter: "blur(40px)"
         }}
       />
@@ -291,15 +291,15 @@ export default function RecentListings() {
               transition: "opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)"
             }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#E8A020] mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-vm-red mb-4">
               Dernières annonces
             </p>
-            <h2 className="section-title">
+            <h2 className="section-title text-gray-900 dark:text-white">
               Nouveautés
               <br />
-              <span className="italic font-light text-gray-600 dark:text-[#A09A8E]">du showroom.</span>
+              <span className="italic font-light text-gray-600 dark:text-gray-400">du showroom.</span>
             </h2>
-            <p className="text-gray-500 dark:text-[#5A5550] text-sm mt-4 max-w-sm leading-relaxed">
+            <p className="text-gray-500 dark:text-gray-500 text-sm mt-4 max-w-sm leading-relaxed">
               Découvrez les dernières annonces ajoutées sur notre plateforme.
             </p>
           </div>
@@ -319,8 +319,8 @@ export default function RecentListings() {
                   onClick={() => setActiveFilter(f)}
                   className={`px-4 py-2 text-[9px] font-bold uppercase tracking-[0.25em] rounded-full transition-all ${
                     activeFilter === f
-                      ? "bg-[#E8A020] text-[#0D0D0D]"
-                      : "bg-[rgba(232,160,32,0.08)] border border-[rgba(232,160,32,0.2)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020]"
+                      ? "bg-vm-red text-white"
+                      : "bg-gray-100 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-vm-red"
                   }`}
                 >
                   {f}
@@ -342,8 +342,8 @@ export default function RecentListings() {
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <Icon name="TruckIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-[#A09A8E]">Aucun véhicule trouvé pour ce filtre</p>
+              <Icon name="TruckIcon" size={48} className="text-gray-500 dark:text-gray-500 mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-gray-400">Aucun véhicule trouvé pour ce filtre</p>
             </div>
           )}
         </div>

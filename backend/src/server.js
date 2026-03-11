@@ -31,12 +31,14 @@ app.use(cors({
   credentials: true
 }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limite de 100 requêtes par IP
-});
-app.use('/api/', limiter);
+// Rate limiting (désactivé en développement)
+if (process.env.NODE_ENV === 'production') {
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limite de 100 requêtes par IP
+  });
+  app.use('/api/', limiter);
+}
 
 // Middlewares
 app.use(morgan('dev'));

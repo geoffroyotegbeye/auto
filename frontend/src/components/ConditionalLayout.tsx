@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CTABanner from '@/components/CTABanner';
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -16,6 +17,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
     <>
       <Header />
       {children}
+      <CTABanner />
       <Footer />
     </>
   );

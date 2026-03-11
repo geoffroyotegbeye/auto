@@ -77,8 +77,8 @@ async function seedAll() {
     // 4. Insérer la configuration du site
     console.log('\n⚙️  Insertion de la configuration...');
     await pool.query(`
-      INSERT INTO site_config (id, currency_symbol, currency_name, currency_position) 
-      VALUES (1, 'FCFA', 'Franc CFA', 'after')
+      INSERT INTO site_config (id, site_logo, currency_symbol, currency_name, currency_position) 
+      VALUES (1, NULL, 'FCFA', 'Franc CFA', 'after')
       ON DUPLICATE KEY UPDATE id=id
     `);
     console.log('✅ Configuration FCFA insérée');

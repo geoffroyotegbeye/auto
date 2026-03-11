@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { configAPI } from '@/services/api';
+import { getImageUrl } from '@/utils/imageUrl';
 import Icon from '@/components/ui/AppIcon';
 import Toast from '@/components/Toast';
 
@@ -13,6 +14,7 @@ interface ToastState {
 
 export default function ConfigPage() {
   const [config, setConfig] = useState({
+    site_logo: null as string | null,
     currency_symbol: 'FCFA',
     currency_name: 'Franc CFA',
     currency_position: 'after'
@@ -20,6 +22,8 @@ export default function ConfigPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'info' });
+  const [selectedLogo, setSelectedLogo] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const showToast = (message: string, type: ToastState['type']) => {
     setToast({ show: true, message, type });
@@ -45,12 +49,32 @@ export default function ConfigPage() {
     }
   };
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedLogo(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
-      await configAPI.update(config);
+      const formData = new FormData();
+      formData.append('currency_symbol', config.currency_symbol);
+      formData.append('currency_name', config.currency_name);
+      formData.append('currency_position', config.currency_position);
+      
+      if (selectedLogo) {
+        formData.append('logo', selectedLogo);
+      }
+
+      await configAPI.update(formData);
       showToast('Configuration mise à jour avec succès', 'success');
+      setSelectedLogo(null);
+      setPreviewUrl(null);
+      loadConfig();
     } catch (error: any) {
       showToast(error.message || 'Erreur lors de la sauvegarde', 'error');
     } finally {
@@ -70,12 +94,59 @@ export default function ConfigPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">Configuration du site</h2>
-        <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">Gérer la devise et les paramètres généraux</p>
+        <p className="text-sm text-gray-600 dark:text-[#A09A8E] mt-1">Gérer le logo, la devise et les paramètres généraux</p>
       </div>
 
       <div className="bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-xl p-6">
         <form onSubmit={handleSave} className="space-y-6">
+          {/* Logo Section */}
           <div>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4 flex items-center gap-2">
+              <Icon name="PhotoIcon" size={20} className="text-[#E8A020]" />
+              Logo du site
+            </h3>
+
+            <div className="space-y-4">
+              {/* Current or Preview Logo */}
+              {(previewUrl || config.site_logo) && (
+                <div className="flex items-center gap-4">
+                  <div className="w-32 h-32 rounded-lg overflow-hidden bg-gray-50 dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] flex items-center justify-center">
+                    <img
+                      src={previewUrl || getImageUrl(config.site_logo)}
+                      alt="Logo"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-[#A09A8E]">
+                    {previewUrl ? 'Nouveau logo (non enregistré)' : 'Logo actuel'}
+                  </div>
+                </div>
+              )}
+
+              {/* Upload Input */}
+              <div>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png,image/webp,image/avif"
+                  onChange={handleLogoChange}
+                  className="hidden"
+                  id="logo-upload"
+                />
+                <label
+                  htmlFor="logo-upload"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:border-[#E8A020] transition-colors cursor-pointer"
+                >
+                  <Icon name="ArrowUpTrayIcon" size={16} />
+                  {config.site_logo ? 'Changer le logo' : 'Ajouter un logo'}
+                </label>
+                <p className="text-xs text-gray-500 dark:text-[#5A5550] mt-2">
+                  Format recommandé : PNG transparent, max 2MB
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)] pt-6">
             <h3 className="text-lg font-bold text-gray-900 dark:text-[#F5F0E8] mb-4 flex items-center gap-2">
               <Icon name="CurrencyDollarIcon" size={20} className="text-[#E8A020]" />
               Configuration de la devise
@@ -148,7 +219,11 @@ export default function ConfigPage() {
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
             <button
               type="button"
-              onClick={loadConfig}
+              onClick={() => {
+                loadConfig();
+                setSelectedLogo(null);
+                setPreviewUrl(null);
+              }}
               className="px-6 py-2 text-sm text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8] transition-colors"
             >
               Annuler

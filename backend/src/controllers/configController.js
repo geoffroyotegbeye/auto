@@ -2,12 +2,18 @@ import pool from '../config/database.js';
 
 export const getConfig = async (req, res) => {
   try {
-    const [configs] = await pool.query('SELECT * FROM site_config');
-    const configObj = {};
-    configs.forEach(config => {
-      configObj[config.config_key] = config.config_value;
-    });
-    res.json(configObj);
+    const [configs] = await pool.query('SELECT * FROM site_config WHERE id = 1');
+    
+    if (configs.length === 0) {
+      return res.json({
+        site_logo: null,
+        currency_symbol: 'FCFA',
+        currency_name: 'Franc CFA',
+        currency_position: 'after'
+      });
+    }
+    
+    res.json(configs[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erreur lors de la récupération de la configuration' });
@@ -17,20 +23,28 @@ export const getConfig = async (req, res) => {
 export const updateConfig = async (req, res) => {
   try {
     const { currency_symbol, currency_name, currency_position } = req.body;
+    const logo = req.file ? req.file.filename : undefined;
 
-    const updates = [
-      { key: 'currency_symbol', value: currency_symbol },
-      { key: 'currency_name', value: currency_name },
-      { key: 'currency_position', value: currency_position }
-    ];
+    const updateData = {};
+    if (logo !== undefined) updateData.site_logo = logo;
+    if (currency_symbol !== undefined) updateData.currency_symbol = currency_symbol;
+    if (currency_name !== undefined) updateData.currency_name = currency_name;
+    if (currency_position !== undefined) updateData.currency_position = currency_position;
 
-    for (const update of updates) {
-      if (update.value !== undefined) {
-        await pool.query(
-          'UPDATE site_config SET config_value = ? WHERE config_key = ?',
-          [update.value, update.key]
-        );
-      }
+    // Vérifier qu'il y a au moins un champ à mettre à jour
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ error: 'Aucune donnée à mettre à jour' });
+    }
+
+    // Vérifier si la config existe
+    const [existing] = await pool.query('SELECT id FROM site_config WHERE id = 1');
+    
+    if (existing.length === 0) {
+      // Créer si n'existe pas
+      await pool.query('INSERT INTO site_config SET ?', { id: 1, ...updateData });
+    } else {
+      // Mettre à jour
+      await pool.query('UPDATE site_config SET ? WHERE id = 1', updateData);
     }
 
     res.json({ message: 'Configuration mise à jour avec succès' });

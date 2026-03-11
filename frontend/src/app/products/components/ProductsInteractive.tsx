@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Icon from "@/components/ui/AppIcon";
 import FilterSidebar from "./FilterSidebar";
 import VehicleCard, { VehicleItem } from "./VehicleCard";
@@ -29,6 +30,7 @@ const sortOptions = [
 const ITEMS_PER_PAGE = 12;
 
 export default function ProductsInteractive() {
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState(getDefaultFilters());
   const [sort, setSort] = useState("recent");
   const [view, setView] = useState<"grid" | "list">("grid");
@@ -40,6 +42,7 @@ export default function ProductsInteractive() {
   const [mounted, setMounted] = useState(false);
   const [priceRange, setPriceRange] = useState({ minPrice: 0, maxPrice: 100000000 });
   const [currency, setCurrency] = useState('FCFA');
+  const [initialFiltersApplied, setInitialFiltersApplied] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -78,7 +81,19 @@ export default function ProductsInteractive() {
         setVehicles(mapped);
         setPriceRange(priceData);
         setCurrency(configData.currency_symbol || 'FCFA');
-        setFilters(getDefaultFilters(priceData.minPrice, priceData.maxPrice));
+        
+        // Appliquer les filtres depuis l'URL
+        const brand = searchParams.get('brand');
+        const maxPrice = searchParams.get('maxPrice');
+        const fuel = searchParams.get('fuel');
+        
+        const newFilters = getDefaultFilters(priceData.minPrice, priceData.maxPrice);
+        if (brand) newFilters.brands = [brand];
+        if (maxPrice) newFilters.priceMax = parseInt(maxPrice);
+        if (fuel) newFilters.fuels = [fuel];
+        
+        setFilters(newFilters);
+        setInitialFiltersApplied(true);
       } catch (error) {
         console.error('Erreur chargement données:', error);
       } finally {
@@ -86,7 +101,7 @@ export default function ProductsInteractive() {
       }
     };
     fetchData();
-  }, [mounted]);
+  }, [mounted, searchParams]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -154,7 +169,7 @@ export default function ProductsInteractive() {
     <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8">
       {!mounted || loading ? (
         <div className="flex items-center justify-center py-32">
-          <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin" />
+          <Icon name="ArrowPathIcon" size={48} className="text-vm-red animate-spin" />
         </div>
       ) : (
         <>
@@ -162,13 +177,13 @@ export default function ProductsInteractive() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         {/* Search */}
         <div className="relative w-full sm:w-80">
-          <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-[#5A5550]" />
+          <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Marque, modèle, version..."
             value={searchQuery}
             onChange={(e) => {setSearchQuery(e.target.value);setPage(1);}}
-            className="search-input w-full rounded-xl pl-10 pr-4 py-3 text-sm" />
+            className="w-full bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-vm-red transition-colors" />
           
         </div>
 
@@ -182,7 +197,7 @@ export default function ProductsInteractive() {
             <Icon name="FunnelIcon" size={14} />
             Filtres
             {activeFilterCount > 0 &&
-            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#E8A020] text-[#0D0D0D] text-[10px] font-bold flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-vm-red text-white text-[10px] font-bold flex items-center justify-center">
                 {activeFilterCount}
               </span>
             }
@@ -192,7 +207,7 @@ export default function ProductsInteractive() {
           <select
             value={sort}
             onChange={(e) => {setSort(e.target.value);setPage(1);}}
-            className="search-input rounded-xl px-4 py-2.5 text-sm pr-8">
+            className="bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-2.5 text-sm pr-8 text-gray-900 dark:text-white focus:outline-none focus:border-vm-red transition-colors">
             
             {sortOptions.map((o) =>
             <option key={o.value} value={o.value}>{o.label}</option>
@@ -200,17 +215,17 @@ export default function ProductsInteractive() {
           </select>
 
           {/* View toggle */}
-          <div className="flex items-center border border-[rgba(245,240,232,0.12)] rounded-xl overflow-hidden">
+          <div className="flex items-center border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
             <button
               onClick={() => setView("grid")}
-              className={`p-2.5 transition-colors ${view === "grid" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]"}`}
+              className={`p-2.5 transition-colors ${view === "grid" ? "bg-vm-red text-white" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}
               aria-label="Vue grille">
               
               <Icon name="Squares2X2Icon" size={16} />
             </button>
             <button
               onClick={() => setView("list")}
-              className={`p-2.5 transition-colors ${view === "list" ? "bg-[#E8A020] text-[#0D0D0D]" : "text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]"}`}
+              className={`p-2.5 transition-colors ${view === "list" ? "bg-vm-red text-white" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}
               aria-label="Vue liste">
               
               <Icon name="ListBulletIcon" size={16} />
@@ -223,28 +238,28 @@ export default function ProductsInteractive() {
       {(filters.brands.length > 0 || filters.fuels.length > 0 || filters.transmissions.length > 0 || filters.bodyStyles.length > 0) &&
       <div className="flex flex-wrap gap-2 mb-6">
           {filters.brands.map((b) =>
-        <button key={b} className="filter-chip rounded-full" onClick={() => removeFilter("brand", b)}>
+        <button key={b} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 rounded-full hover:border-vm-red transition-colors flex items-center gap-2" onClick={() => removeFilter("brand", b)}>
               {b} <Icon name="XMarkIcon" size={12} />
             </button>
         )}
           {filters.fuels.map((f) =>
-        <button key={f} className="filter-chip rounded-full" onClick={() => removeFilter("fuel", f)}>
+        <button key={f} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 rounded-full hover:border-vm-red transition-colors flex items-center gap-2" onClick={() => removeFilter("fuel", f)}>
               {f} <Icon name="XMarkIcon" size={12} />
             </button>
         )}
           {filters.transmissions.map((t) =>
-        <button key={t} className="filter-chip rounded-full" onClick={() => removeFilter("transmission", t)}>
+        <button key={t} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 rounded-full hover:border-vm-red transition-colors flex items-center gap-2" onClick={() => removeFilter("transmission", t)}>
               {t} <Icon name="XMarkIcon" size={12} />
             </button>
         )}
           {filters.bodyStyles.map((b) =>
-        <button key={b} className="filter-chip rounded-full" onClick={() => removeFilter("body", b)}>
+        <button key={b} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 rounded-full hover:border-vm-red transition-colors flex items-center gap-2" onClick={() => removeFilter("body", b)}>
               {b} <Icon name="XMarkIcon" size={12} />
             </button>
         )}
           <button
           onClick={() => setFilters(defaultFilters)}
-          className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 dark:text-[#5A5550] hover:text-[#E8A020] transition-colors px-2">
+          className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 dark:text-gray-500 hover:text-vm-red transition-colors px-2">
           
             Tout effacer
           </button>
@@ -268,12 +283,12 @@ export default function ProductsInteractive() {
         <div className="flex-1 min-w-0">
           {/* Results count */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-[13px] text-gray-600 dark:text-[#A09A8E]">
-              <span className="font-bold text-gray-900 dark:text-[#F5F0E8] text-lg font-display">{filtered.length}</span>{" "}
+            <p className="text-[13px] text-gray-600 dark:text-gray-400">
+              <span className="font-bold text-gray-900 dark:text-white text-lg font-display">{filtered.length}</span>{" "}
               véhicule{filtered.length !== 1 ? "s" : ""} trouvé{filtered.length !== 1 ? "s" : ""}
             </p>
             {totalPages > 1 &&
-            <p className="text-[11px] text-gray-500 dark:text-[#5A5550]">
+            <p className="text-[11px] text-gray-500 dark:text-gray-500">
                 Page {page} / {totalPages}
               </p>
             }
@@ -282,9 +297,9 @@ export default function ProductsInteractive() {
           {/* Grid */}
           {paginated.length === 0 ?
           <div className="text-center py-32">
-              <Icon name="MagnifyingGlassIcon" size={48} className="text-gray-500 dark:text-[#5A5550] mx-auto mb-4" />
-              <p className="font-display text-2xl font-bold text-gray-600 dark:text-[#A09A8E]">Aucun résultat</p>
-              <p className="text-gray-500 dark:text-[#5A5550] mt-2 text-sm">Essayez d'élargir vos critères de recherche</p>
+              <Icon name="MagnifyingGlassIcon" size={48} className="text-gray-500 dark:text-gray-500 mx-auto mb-4" />
+              <p className="font-display text-2xl font-bold text-gray-600 dark:text-gray-400">Aucun résultat</p>
+              <p className="text-gray-500 dark:text-gray-500 mt-2 text-sm">Essayez d'élargir vos critères de recherche</p>
               <button
               onClick={() => {setFilters(getDefaultFilters(priceRange.minPrice, priceRange.maxPrice));setSearchQuery("");}}
               className="btn-primary mt-6">
@@ -324,8 +339,8 @@ export default function ProductsInteractive() {
               onClick={() => {setPage(p);window.scrollTo({ top: 0, behavior: "smooth" });}}
               className={`w-10 h-10 rounded-lg text-[12px] font-bold transition-all ${
               p === page ?
-              "bg-[#E8A020] text-[#0D0D0D]" :
-              "border border-[rgba(245,240,232,0.12)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020] hover:text-[#E8A020]"}`
+              "bg-vm-red text-white" :
+              "border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-vm-red hover:text-vm-red"}`
               }>
               
                   {p}

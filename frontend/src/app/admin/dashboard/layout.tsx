@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { authAPI } from '@/services/api';
-import AppLogo from '@/components/ui/AppLogo';
+import { authAPI, configAPI } from '@/services/api';
+import { getImageUrl } from '@/utils/imageUrl';
 import Icon from '@/components/ui/AppIcon';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const menuItems = [
   { icon: 'ChartBarIcon', label: 'Dashboard', href: '/admin/dashboard' },
@@ -25,6 +26,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [logo, setLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!authAPI.isAuthenticated()) {
@@ -32,6 +48,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       return;
     }
     setUser(authAPI.getUser());
+    
+    // Charger le logo
+    const loadLogo = async () => {
+      try {
+        const config = await configAPI.get();
+        if (config.site_logo) {
+          setLogo(config.site_logo);
+        }
+      } catch (error) {
+        console.error('Erreur chargement logo:', error);
+      }
+    };
+    loadLogo();
   }, [router]);
 
   const handleLogout = () => {
@@ -41,34 +70,82 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#0D0D0D] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-vm-dark flex items-center justify-center">
         <div className="text-center">
-          <Icon name="ArrowPathIcon" size={48} className="text-[#E8A020] animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-[#A09A8E]">Chargement...</p>
+          <Icon name="ArrowPathIcon" size={48} className="text-vm-red animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Chargement...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0D0D0D] flex">
+    <div className="min-h-screen bg-white dark:bg-vm-dark flex flex-col lg:flex-row">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-gray-50 dark:bg-vm-dark-card border-b border-gray-200 dark:border-gray-800 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {logo ? (
+              <img 
+                src={getImageUrl(logo)} 
+                alt="Logo" 
+                className="h-8 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-lg font-bold text-gray-900 dark:text-white">Mig Motor</span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              <Icon name={sidebarOpen ? 'XMarkIcon' : 'Bars3Icon'} size={24} />
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarOpen ? 'w-64' : 'w-20'
-        } bg-gray-50 dark:bg-[#141414] border-r border-gray-200 dark:border-[rgba(245,240,232,0.08)] transition-all duration-300 flex flex-col fixed h-full z-50`}
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0 ${
+          sidebarOpen ? 'w-64' : 'lg:w-20'
+        } bg-gray-50 dark:bg-vm-dark-card border-r border-gray-200 dark:border-gray-800 transition-all duration-300 flex flex-col fixed lg:sticky top-0 h-screen z-40 lg:z-auto`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-800 hidden lg:block">
           {sidebarOpen ? (
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8] tracking-tight">
-                Mig Motor
-              </span>
-              <span className="text-xs text-gray-500 dark:text-[#5A5550]">Admin</span>
+              {logo ? (
+                <img 
+                  src={getImageUrl(logo)} 
+                  alt="Logo" 
+                  className="h-8 w-auto object-contain"
+                />
+              ) : (
+                <>
+                  <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    Mig Motor
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-500">Admin</span>
+                </>
+              )}
             </div>
           ) : (
-            <span className="text-xl font-bold text-[#E8A020] mx-auto">M</span>
+            <div className="flex items-center justify-center">
+              {logo ? (
+                <img 
+                  src={getImageUrl(logo)} 
+                  alt="Logo" 
+                  className="h-8 w-auto object-contain"
+                />
+              ) : (
+                <span className="text-xl font-bold text-vm-red">M</span>
+              )}
+            </div>
           )}
         </div>
 
@@ -82,8 +159,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive
-                    ? 'bg-[#E8A020] text-[#0D0D0D]'
-                    : 'text-gray-600 dark:text-[#A09A8E] hover:bg-white dark:bg-[#1A1A1A] hover:text-gray-900 dark:text-[#F5F0E8]'
+                    ? 'bg-vm-red text-white'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-vm-dark hover:text-gray-900 dark:hover:text-white'
                 }`}
                 title={!sidebarOpen ? item.label : undefined}
               >
@@ -95,21 +172,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* User */}
-        <div className="p-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800">
           {sidebarOpen ? (
             <div className="space-y-3">
               <div className="flex items-center gap-3 px-4 py-2">
-                <div className="w-8 h-8 rounded-full bg-[#E8A020] flex items-center justify-center text-[#0D0D0D] font-bold text-sm">
+                <div className="w-8 h-8 rounded-full bg-vm-red flex items-center justify-center text-white font-bold text-sm">
                   {user.name.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-[#F5F0E8] truncate">{user.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-[#5A5550] truncate">{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-500 truncate">{user.email}</p>
                 </div>
               </div>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-[#A09A8E] hover:text-red-400 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
               >
                 <Icon name="ArrowRightOnRectangleIcon" size={16} />
                 Déconnexion
@@ -118,7 +195,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ) : (
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center p-2 text-gray-600 dark:text-[#A09A8E] hover:text-red-400 transition-colors"
+              className="w-full flex items-center justify-center p-2 text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
               title="Déconnexion"
             >
               <Icon name="ArrowRightOnRectangleIcon" size={20} />
@@ -126,45 +203,56 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
         </div>
 
-        {/* Toggle */}
+        {/* Toggle Desktop Only */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute -right-3 top-20 w-6 h-6 bg-[#E8A020] rounded-full flex items-center justify-center hover:bg-[#F0B840] transition-colors"
+          className="hidden lg:flex absolute -right-3 top-20 w-6 h-6 bg-vm-red rounded-full items-center justify-center hover:bg-red-600 transition-colors"
         >
           <Icon
             name={sidebarOpen ? 'ChevronLeftIcon' : 'ChevronRightIcon'}
             size={14}
-            className="text-[#0D0D0D]"
+            className="text-white"
           />
         </button>
       </aside>
 
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Main Content */}
-      <main className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
-        {/* Top Bar */}
-        <header className="bg-gray-50 dark:bg-[#141414] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)] px-8 py-4 sticky top-0 z-40">
+      <main className="flex-1 w-full pt-16 lg:pt-0">
+        {/* Top Bar - Desktop Only */}
+        <header className="hidden lg:block bg-gray-50 dark:bg-vm-dark-card border-b border-gray-200 dark:border-gray-800 px-4 lg:px-8 py-4 sticky top-0 z-40">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-[#F5F0E8]">
+              <h1 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
                 {menuItems.find((item) => item.href === pathname)?.label || 'Dashboard'}
               </h1>
-              <p className="text-sm text-gray-500 dark:text-[#5A5550] mt-1">
+              <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-500 mt-1">
                 Bienvenue, {user.name}
               </p>
             </div>
-            <Link
-              href="/"
-              target="_blank"
-              className="btn-outline px-4 py-2 text-xs"
-            >
-              <Icon name="GlobeAltIcon" size={14} />
-              Voir le site
-            </Link>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Link
+                href="/"
+                target="_blank"
+                className="hidden lg:flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white dark:bg-vm-dark border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <Icon name="GlobeAltIcon" size={14} />
+                Voir le site
+              </Link>
+            </div>
           </div>
         </header>
 
         {/* Content */}
-        <div className="p-8">{children}</div>
+        <div className="p-4 lg:p-8">{children}</div>
       </main>
     </div>
   );

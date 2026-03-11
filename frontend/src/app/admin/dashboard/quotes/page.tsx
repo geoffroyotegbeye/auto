@@ -7,6 +7,8 @@ import Icon from '@/components/ui/AppIcon';
 export default function QuotesPage() {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedQuote, setSelectedQuote] = useState<any>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadQuotes();
@@ -27,9 +29,17 @@ export default function QuotesPage() {
     try {
       await quotesAPI.update(id, { status });
       loadQuotes();
+      if (selectedQuote?.id === id) {
+        setSelectedQuote({ ...selectedQuote, status });
+      }
     } catch (error: any) {
       alert(error.message);
     }
+  };
+
+  const viewQuote = (quote: any) => {
+    setSelectedQuote(quote);
+    setShowModal(true);
   };
 
   if (loading) {
@@ -83,7 +93,11 @@ export default function QuotesPage() {
                   </select>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020]">
+                  <button 
+                    onClick={() => viewQuote(quote)}
+                    className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-[#E8A020] transition-colors"
+                    title="Voir les détails"
+                  >
                     <Icon name="EyeIcon" size={16} />
                   </button>
                 </td>
@@ -92,6 +106,123 @@ export default function QuotesPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal de détails */}
+      {showModal && selectedQuote && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-[#1A1A1A] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="sticky top-0 bg-white dark:bg-[#1A1A1A] border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)] p-6 flex items-center justify-between">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-[#F5F0E8]">
+                Demande de devis #{selectedQuote.id}
+              </h3>
+              <button
+                onClick={() => setShowModal(false)}
+                className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:hover:text-[#F5F0E8] transition-colors"
+              >
+                <Icon name="XMarkIcon" size={24} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* Informations client */}
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E] mb-3">
+                  Informations client
+                </h4>
+                <div className="bg-gray-50 dark:bg-[#141414] rounded-lg p-4 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Nom complet</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8]">
+                      {selectedQuote.first_name} {selectedQuote.last_name}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Email</span>
+                    <a href={`mailto:${selectedQuote.email}`} className="text-sm font-semibold text-[#E8A020] hover:underline">
+                      {selectedQuote.email}
+                    </a>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Téléphone</span>
+                    <a href={`tel:${selectedQuote.phone}`} className="text-sm font-semibold text-[#E8A020] hover:underline">
+                      {selectedQuote.phone}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Détails du véhicule */}
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E] mb-3">
+                  Détails du véhicule
+                </h4>
+                <div className="bg-gray-50 dark:bg-[#141414] rounded-lg p-4 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Type</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8]">
+                      {selectedQuote.type === 'new' ? 'Neuf' : selectedQuote.type === 'used' ? 'Occasion' : 'Leasing'}
+                    </span>
+                  </div>
+                  {selectedQuote.brand && (
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Marque</span>
+                      <span className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8]">{selectedQuote.brand}</span>
+                    </div>
+                  )}
+                  {selectedQuote.model && (
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600 dark:text-[#A09A8E]">Modèle</span>
+                      <span className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8]">{selectedQuote.model}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Message */}
+              {selectedQuote.message && (
+                <div>
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E] mb-3">
+                    Message
+                  </h4>
+                  <div className="bg-gray-50 dark:bg-[#141414] rounded-lg p-4">
+                    <p className="text-sm text-gray-900 dark:text-[#F5F0E8] whitespace-pre-wrap">{selectedQuote.message}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Statut */}
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-[#A09A8E] mb-3">
+                  Statut
+                </h4>
+                <select
+                  value={selectedQuote.status}
+                  onChange={(e) => updateStatus(selectedQuote.id, e.target.value)}
+                  className="w-full search-input rounded-lg px-4 py-3"
+                >
+                  <option value="pending">En attente</option>
+                  <option value="processing">En cours</option>
+                  <option value="sent">Envoyé</option>
+                  <option value="closed">Clôturé</option>
+                </select>
+              </div>
+
+              {/* Date */}
+              <div className="text-xs text-gray-500 dark:text-[#A09A8E] text-center pt-4 border-t border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
+                Reçu le {new Date(selectedQuote.created_at).toLocaleDateString('fr-FR', { 
+                  day: 'numeric', 
+                  month: 'long', 
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

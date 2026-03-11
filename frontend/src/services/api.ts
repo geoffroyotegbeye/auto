@@ -155,7 +155,11 @@ export const authAPI = {
 // Configuration
 export const configAPI = {
   get: () => fetchAPI('/config'),
-  update: (data: any) => fetchAPI('/config', { method: 'PUT', body: JSON.stringify(data) }),
+  update: (data: any) => {
+    // Si c'est un FormData, l'envoyer directement, sinon JSON.stringify
+    const body = data instanceof FormData ? data : JSON.stringify(data);
+    return fetchAPI('/config', { method: 'PUT', body });
+  },
   getPriceRange: () => fetchAPI('/config/price-range'),
 };
 

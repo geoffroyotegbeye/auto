@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/AppIcon";
+import { brandsAPI } from '@/services/api';
 
 interface Filters {
   brands: string[];
@@ -25,17 +26,25 @@ interface FilterSidebarProps {
   currency?: string;
 }
 
-const brandOptions = [
-  "Audi", "BMW", "Citroën", "Ford", "Hyundai", "Kia",
-  "Mercedes", "Nissan", "Peugeot", "Porsche", "Renault",
-  "Skoda", "Tesla", "Toyota", "Volkswagen", "Volvo",
-];
+interface Brand {
+  id: number;
+  name: string;
+  logo?: string;
+}
+
 const fuelOptions = ["Essence", "Diesel", "Hybride", "Hybride rechargeable", "Électrique", "GPL"];
 const bodyOptions = ["Berline", "SUV", "Break", "Coupé", "Cabriolet", "Monospace", "Citadine", "Pick-up"];
 const transmissionOptions = ["Manuelle", "Automatique", "Semi-automatique"];
 
 export default function FilterSidebar({ filters, onChange, onReset, isOpen, onClose, priceRange, currency = 'FCFA' }: FilterSidebarProps) {
   const [expandedSections, setExpandedSections] = useState<string[]>(["brand", "price", "fuel"]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    brandsAPI.getAll().then(data => {
+      setBrands(data.sort((a: Brand, b: Brand) => a.name.localeCompare(b.name)));
+    }).catch(err => console.error('Erreur chargement marques:', err));
+  }, []);
 
   const toggleSection = (section: string) => {
     setExpandedSections((prev) =>
@@ -76,23 +85,23 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
       className="flex items-center justify-between w-full py-3 text-left"
       onClick={() => toggleSection(id)}
     >
-      <span className="filter-group-title">{label}</span>
+      <span className="text-[13px] font-bold uppercase tracking-[0.2em] text-gray-900 dark:text-white">{label}</span>
       <Icon
         name={expandedSections.includes(id) ? "ChevronUpIcon" : "ChevronDownIcon"}
         size={14}
-        className="text-gray-500 dark:text-[#5A5550]"
+        className="text-gray-500 dark:text-gray-500"
       />
     </button>
   );
 
   const content = (
-    <div className="w-72 flex-shrink-0 filter-panel h-fit sticky top-24 rounded-2xl overflow-hidden">
+    <div className="w-72 flex-shrink-0 bg-gray-50 dark:bg-vm-dark-card border border-gray-200 dark:border-gray-800 h-fit sticky top-24 rounded-2xl overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
-        <h3 className="font-bold text-[13px] uppercase tracking-[0.2em] text-gray-900 dark:text-[#F5F0E8]">Filtres</h3>
+      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+        <h3 className="font-bold text-[13px] uppercase tracking-[0.2em] text-gray-900 dark:text-white">Filtres</h3>
         <button
           onClick={onReset}
-          className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8A020] hover:text-[#F0B840] transition-colors"
+          className="text-[10px] font-bold uppercase tracking-[0.2em] text-vm-red hover:text-red-600 transition-colors"
         >
           Réinitialiser
         </button>
@@ -100,20 +109,20 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
 
       <div className="p-6 space-y-1">
         {/* Brand */}
-        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
           {sectionHeader("brand", "Marque")}
           {expandedSections.includes("brand") && (
             <div className="mt-2 space-y-2 max-h-52 overflow-y-auto pr-1">
-              {brandOptions.map((brand) => (
-                <label key={brand} className="flex items-center gap-3 cursor-pointer group">
+              {brands.map((brand) => (
+                <label key={brand.id} className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
-                    className="filter-checkbox w-4 h-4 rounded"
-                    checked={filters.brands.includes(brand)}
-                    onChange={() => toggleBrand(brand)}
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-vm-red focus:ring-vm-red"
+                    checked={filters.brands.includes(brand.name)}
+                    onChange={() => toggleBrand(brand.name)}
                   />
-                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
-                    {brand}
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                    {brand.name}
                   </span>
                 </label>
               ))}
@@ -122,35 +131,45 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Price */}
-        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
           {sectionHeader("price", "Budget")}
           {expandedSections.includes("price") && (
             <div className="mt-3 space-y-4">
-              <div className="flex items-center justify-between text-[12px] text-gray-600 dark:text-[#A09A8E]">
-                <span>{filters.priceMin.toLocaleString("fr-FR")} {currency}</span>
-                <span>{filters.priceMax.toLocaleString("fr-FR")} {currency}</span>
+              <div className="flex items-center justify-between text-[12px] text-gray-600 dark:text-gray-400">
+                <span>{Math.floor(filters.priceMin).toLocaleString("fr-FR")} {currency}</span>
+                <span>{Math.floor(filters.priceMax).toLocaleString("fr-FR")} {currency}</span>
               </div>
               <div>
-                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-2">Prix minimum</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-500 mb-2">Prix minimum</p>
                 <input
                   type="range"
                   min={priceRange?.minPrice || 0}
                   max={priceRange?.maxPrice || 100000000}
                   step={100000}
                   value={filters.priceMin}
-                  onChange={(e) => onChange({ ...filters, priceMin: Number(e.target.value) })}
+                  onChange={(e) => {
+                    const newMin = Number(e.target.value);
+                    if (newMin <= filters.priceMax) {
+                      onChange({ ...filters, priceMin: newMin });
+                    }
+                  }}
                   className="w-full"
                 />
               </div>
               <div>
-                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-2">Prix maximum</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-500 mb-2">Prix maximum</p>
                 <input
                   type="range"
                   min={priceRange?.minPrice || 0}
                   max={priceRange?.maxPrice || 100000000}
                   step={100000}
                   value={filters.priceMax}
-                  onChange={(e) => onChange({ ...filters, priceMax: Number(e.target.value) })}
+                  onChange={(e) => {
+                    const newMax = Number(e.target.value);
+                    if (newMax >= filters.priceMin) {
+                      onChange({ ...filters, priceMax: newMax });
+                    }
+                  }}
                   className="w-full"
                 />
               </div>
@@ -159,14 +178,14 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Year */}
-        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
           {sectionHeader("year", "Année")}
           {expandedSections.includes("year") && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-1">De</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-500 mb-1">De</p>
                 <select
-                  className="search-input rounded-lg px-3 py-2 text-sm w-full"
+                  className="bg-white dark:bg-vm-dark border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 text-sm w-full text-gray-900 dark:text-white focus:outline-none focus:border-vm-red transition-colors"
                   value={filters.yearMin}
                   onChange={(e) => onChange({ ...filters, yearMin: Number(e.target.value) })}
                 >
@@ -176,9 +195,9 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                 </select>
               </div>
               <div>
-                <p className="text-[10px] text-gray-500 dark:text-[#5A5550] mb-1">À</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-500 mb-1">À</p>
                 <select
-                  className="search-input rounded-lg px-3 py-2 text-sm w-full"
+                  className="bg-white dark:bg-vm-dark border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 text-sm w-full text-gray-900 dark:text-white focus:outline-none focus:border-vm-red transition-colors"
                   value={filters.yearMax}
                   onChange={(e) => onChange({ ...filters, yearMax: Number(e.target.value) })}
                 >
@@ -192,7 +211,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Fuel */}
-        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
           {sectionHeader("fuel", "Carburant")}
           {expandedSections.includes("fuel") && (
             <div className="mt-2 space-y-2">
@@ -200,11 +219,11 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                 <label key={fuel} className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
-                    className="filter-checkbox w-4 h-4 rounded"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-vm-red focus:ring-vm-red"
                     checked={filters.fuels.includes(fuel)}
                     onChange={() => toggleFuel(fuel)}
                   />
-                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                     {fuel}
                   </span>
                 </label>
@@ -214,7 +233,7 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
         </div>
 
         {/* Body */}
-        <div className="border-b border-gray-200 dark:border-[rgba(245,240,232,0.06)] pb-4">
+        <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
           {sectionHeader("body", "Carrosserie")}
           {expandedSections.includes("body") && (
             <div className="mt-2 flex flex-wrap gap-2">
@@ -224,8 +243,8 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                   onClick={() => toggleBody(body)}
                   className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] border rounded transition-all ${
                     filters.bodyStyles.includes(body)
-                      ? "bg-[#E8A020] border-[#E8A020] text-[#0D0D0D]"
-                      : "border-[rgba(245,240,232,0.12)] text-gray-600 dark:text-[#A09A8E] hover:border-[#E8A020]"
+                      ? "bg-vm-red border-vm-red text-white"
+                      : "border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-vm-red"
                   }`}
                 >
                   {body}
@@ -244,11 +263,11 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
                 <label key={t} className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
-                    className="filter-checkbox w-4 h-4 rounded"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-vm-red focus:ring-vm-red"
                     checked={filters.transmissions.includes(t)}
                     onChange={() => toggleTransmission(t)}
                   />
-                  <span className="text-[12px] font-medium text-gray-600 dark:text-[#A09A8E] group-hover:text-gray-900 dark:text-[#F5F0E8] transition-colors">
+                  <span className="text-[12px] font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                     {t}
                   </span>
                 </label>
@@ -272,10 +291,10 @@ export default function FilterSidebar({ filters, onChange, onReset, isOpen, onCl
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
-          <div className="relative z-10 w-80 h-full overflow-y-auto bg-gray-50 dark:bg-[#141414] border-r border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[rgba(245,240,232,0.08)]">
-              <h3 className="font-bold text-[13px] uppercase tracking-[0.2em]">Filtres</h3>
-              <button onClick={onClose} className="text-gray-600 dark:text-[#A09A8E] hover:text-gray-900 dark:text-[#F5F0E8]">
+          <div className="relative z-10 w-80 h-full overflow-y-auto bg-gray-50 dark:bg-vm-dark-card border-r border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+              <h3 className="font-bold text-[13px] uppercase tracking-[0.2em] text-gray-900 dark:text-white">Filtres</h3>
+              <button onClick={onClose} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                 <Icon name="XMarkIcon" size={20} />
               </button>
             </div>

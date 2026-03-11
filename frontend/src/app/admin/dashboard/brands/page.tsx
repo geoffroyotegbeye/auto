@@ -133,7 +133,24 @@ export default function BrandsPage() {
   };
 
   const handleDelete = (id: number) => {
+    const brand = brands.find(b => b.id === id);
     setConfirmDelete({ show: true, brandId: id });
+  };
+
+  const toggleBrandStatus = async (brand: Brand) => {
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', brand.name);
+      formDataToSend.append('is_active', (!brand.is_active).toString());
+      formDataToSend.append('display_order', brand.display_order.toString());
+      if (brand.description) formDataToSend.append('description', brand.description);
+
+      await brandsAPI.update(brand.id.toString(), formDataToSend);
+      loadBrands();
+      showToast(`Marque ${!brand.is_active ? 'activée' : 'désactivée'} avec succès`, 'success');
+    } catch (error: any) {
+      showToast(error.message || 'Erreur lors de la mise à jour', 'error');
+    }
   };
 
   const confirmDeleteBrand = async () => {
@@ -145,7 +162,10 @@ export default function BrandsPage() {
       loadBrands();
       showToast('Marque supprimée avec succès', 'success');
     } catch (error: any) {
-      showToast(error.message || 'Erreur lors de la suppression', 'error');
+      console.error('Delete error:', error);
+      const errorMessage = error.message || 'Erreur lors de la suppression';
+      showToast(errorMessage, 'error');
+      setConfirmDelete({ show: false, brandId: null });
     }
   };
 
@@ -197,11 +217,22 @@ export default function BrandsPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <button onClick={() => handleEdit(brand)} className="flex-1 px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-50 dark:bg-[#141414] transition-colors text-sm font-medium">
+              <button 
+                onClick={() => toggleBrandStatus(brand)} 
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  brand.is_active 
+                    ? 'bg-gray-100 dark:bg-[#0D0D0D] text-gray-600 dark:text-[#A09A8E] hover:bg-gray-200 dark:hover:bg-[#141414]' 
+                    : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+                }`}
+                title={brand.is_active ? 'Désactiver' : 'Activer'}
+              >
+                <Icon name={brand.is_active ? 'EyeSlashIcon' : 'EyeIcon'} size={16} />
+              </button>
+              <button onClick={() => handleEdit(brand)} className="flex-1 px-4 py-2 bg-white dark:bg-[#0D0D0D] border border-gray-200 dark:border-[rgba(245,240,232,0.08)] rounded-lg text-gray-900 dark:text-[#F5F0E8] hover:bg-gray-50 dark:hover:bg-[#141414] transition-colors text-sm font-medium">
                 <Icon name="PencilIcon" size={14} className="inline mr-2" />
                 Modifier
               </button>
-              <button onClick={() => handleDelete(brand.id)} className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-rose-400 transition-colors">
+              <button onClick={() => handleDelete(brand.id)} className="p-2 text-gray-600 dark:text-[#A09A8E] hover:text-rose-400 transition-colors" title="Supprimer">
                 <Icon name="TrashIcon" size={16} />
               </button>
             </div>
